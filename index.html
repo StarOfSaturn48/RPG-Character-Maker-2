@@ -1,0 +1,2793 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grimorio del Aventurero — Ficha de Personaje RPG Medieval</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Cinzel, Crimson Text e Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@500;600;700;800&family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            parchment: {
+              light: '#f7f0df',
+              DEFAULT: '#efe3c6',
+              dark: '#e0cfa8',
+              border: '#bba174',
+            },
+            leather: {
+              light: '#4a2e1b',
+              DEFAULT: '#2c1810',
+              dark: '#190d08',
+            },
+            crimson: {
+              light: '#a82020',
+              DEFAULT: '#7a1212',
+              dark: '#4d0808',
+            },
+            gold: {
+              light: '#e8c86b',
+              DEFAULT: '#c59b27',
+              dark: '#8f6b10',
+            },
+            ink: {
+              DEFAULT: '#23170f',
+              muted: '#574232',
+            }
+          },
+          fontFamily: {
+            display: ['"Cinzel Decorative"', 'serif'],
+            serif: ['"Cinzel"', 'serif'],
+            body: ['"Crimson Pro"', 'serif'],
+            sans: ['"Inter"', 'sans-serif'],
+          },
+          boxShadow: {
+            'parchment': '0 10px 35px -5px rgba(15, 8, 4, 0.7), inset 0 0 60px rgba(166, 130, 74, 0.25)',
+            'gold-glow': '0 0 12px rgba(197, 155, 39, 0.45)',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Fondo de mesa de madera/cuero oscuro y textura sutil de pergamino */
+    body {
+      background-color: #190d08;
+      background-image: 
+        radial-gradient(circle at 50% 0%, rgba(92, 54, 30, 0.35) 0%, rgba(20, 10, 5, 0.92) 85%),
+        repeating-linear-gradient(45deg, rgba(0,0,0,0.08) 0px, rgba(0,0,0,0.08) 2px, transparent 2px, transparent 8px);
+      color: #23170f;
+      font-family: 'Crimson Pro', serif;
+    }
+
+    .parchment-sheet {
+      background-color: #f3e8cf;
+      background-image: 
+        radial-gradient(ellipse at top left, rgba(255, 252, 242, 0.7) 0%, transparent 50%),
+        radial-gradient(ellipse at bottom right, rgba(187, 153, 98, 0.35) 0%, transparent 60%),
+        linear-gradient(180deg, rgba(235, 219, 185, 0.3) 0%, rgba(224, 204, 164, 0.45) 100%);
+      border: 2px solid #8f6b10;
+      position: relative;
+    }
+
+    /* Esquinas ornamentales */
+    .corner-ornament {
+      position: absolute;
+      width: 28px;
+      height: 28px;
+      border-color: #7a1212;
+      pointer-events: none;
+    }
+    .corner-tl { top: 8px; left: 8px; border-top: 3px solid; border-left: 3px solid; }
+    .corner-tr { top: 8px; right: 8px; border-top: 3px solid; border-right: 3px solid; }
+    .corner-bl { bottom: 8px; left: 8px; border-bottom: 3px solid; border-left: 3px solid; }
+    .corner-br { bottom: 8px; right: 8px; border-bottom: 3px solid; border-right: 3px solid; }
+
+    /* Estilo de inputs tipo tinta sobre pergamino */
+    .ink-input {
+      background: rgba(255, 251, 240, 0.55);
+      border: 1px solid #bba174;
+      border-bottom: 2px solid #7d5d34;
+      color: #23170f;
+      transition: all 0.2s ease;
+    }
+    .ink-input:focus {
+      outline: none;
+      background: rgba(255, 253, 247, 0.95);
+      border-color: #7a1212;
+      box-shadow: 0 0 0 2px rgba(122, 18, 18, 0.15);
+    }
+    .ink-input:disabled {
+      background: rgba(187, 161, 116, 0.25);
+      color: #6e5946;
+      cursor: not-allowed;
+      border-style: dashed;
+    }
+
+    /* Botones medievales */
+    .btn-medieval {
+      background: linear-gradient(180deg, #4a2e1b 0%, #2c1810 100%);
+      border: 1px solid #c59b27;
+      color: #f7f0df;
+      transition: all 0.18s ease;
+    }
+    .btn-medieval:hover {
+      background: linear-gradient(180deg, #5e3b23 0%, #3b2116 100%);
+      box-shadow: 0 0 10px rgba(197, 155, 39, 0.45);
+      transform: translateY(-1px);
+    }
+    .btn-medieval:active {
+      transform: translateY(0);
+    }
+
+    .btn-crimson {
+      background: linear-gradient(180deg, #961919 0%, #630c0c 100%);
+      border: 1px solid #e8c86b;
+      color: #fff8e7;
+      transition: all 0.18s ease;
+    }
+    .btn-crimson:hover {
+      background: linear-gradient(180deg, #b01e1e 0%, #7a1212 100%);
+      box-shadow: 0 0 12px rgba(168, 32, 32, 0.5);
+    }
+
+    /* Animación de dado d20 */
+    @keyframes diceRoll {
+      0% { transform: rotate(0deg) scale(1); }
+      25% { transform: rotate(-18deg) scale(1.15); }
+      50% { transform: rotate(18deg) scale(0.95); }
+      75% { transform: rotate(-10deg) scale(1.1); }
+      100% { transform: rotate(0deg) scale(1); }
+    }
+    .animate-dice {
+      animation: diceRoll 0.42s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+    }
+
+    /* Scrollbar personalizada */
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: #190d08; }
+    ::-webkit-scrollbar-thumb { background: #6e4e2a; border-radius: 4px; border: 1px solid #c59b27; }
+    ::-webkit-scrollbar-thumb:hover { background: #8f6b10; }
+
+    /* Estilos de Impresión / PDF Limpio */
+    @media print {
+      @page {
+        size: A4 portrait;
+        margin: 8mm;
+      }
+      body {
+        background: #ffffff !important;
+        color: #1a110a !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+      .no-print {
+        display: none !important;
+      }
+      .print-only {
+        display: block !important;
+      }
+      .parchment-sheet {
+        background: #fdfaf2 !important;
+        box-shadow: none !important;
+        border: 2px solid #4a2e1b !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+        padding: 12px !important;
+      }
+      .ink-input {
+        background: transparent !important;
+        border: none !important;
+        border-bottom: 1px solid #574232 !important;
+        padding-left: 2px !important;
+        padding-right: 2px !important;
+      }
+      select {
+        appearance: none !important;
+        -webkit-appearance: none !important;
+      }
+      /* Forzar 2 columnas de pericias en impresión */
+      #skills-grid {
+        display: grid !important;
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 10px !important;
+      }
+      .skill-group-card {
+        break-inside: avoid;
+        page-break-inside: avoid;
+        border: 1px solid #8f6b10 !important;
+        background: #faf5e8 !important;
+      }
+    }
+  </style>
+</head>
+<body class="min-h-screen pb-12 selection:bg-crimson selection:text-parchment-light">
+
+  <!-- BARRA SUPERIOR DE HERRAMIENTAS (NO IMPRIMIBLE) -->
+  <header class="no-print sticky top-0 z-40 bg-leather-dark/95 backdrop-blur-md border-b-2 border-gold/70 shadow-lg">
+    <div class="max-w-7xl mx-auto px-3 sm:px-6 py-2.5 flex flex-wrap items-center justify-between gap-2">
+      <!-- Logo / Título -->
+      <div class="flex items-center gap-2.5">
+        <div class="w-9 h-9 rounded-lg bg-crimson border border-gold flex items-center justify-center shadow-gold-glow">
+          <i data-lucide="shield-alert" class="w-5 h-5 text-gold-light"></i>
+        </div>
+        <div>
+          <h1 class="font-display text-base sm:text-lg text-gold-light tracking-wider leading-tight">RPG MEDIEVAL</h1>
+          <p class="font-sans text-[11px] text-parchment-dark/80 hidden sm:block">Creador Oficial de Fichas &amp; Sistema TEI (d20)</p>
+        </div>
+      </div>
+
+      <!-- Acciones Rápidas -->
+      <div class="flex flex-wrap items-center gap-1.5 sm:gap-2 font-sans text-xs">
+        <!-- Selector de Idioma (ES / PT / EN) -->
+        <div class="flex items-center bg-leather border border-gold/60 rounded-lg px-2 py-1 gap-1" title="Cambiar idioma / Mudar idioma / Change language">
+          <i data-lucide="globe" class="w-3.5 h-3.5 text-gold-light shrink-0"></i>
+          <select id="language-select" onchange="setLanguage(this.value)" class="bg-transparent text-parchment-light font-semibold text-xs focus:outline-none cursor-pointer">
+            <option value="es" class="bg-leather-dark text-parchment-light">ES</option>
+            <option value="pt" class="bg-leather-dark text-parchment-light">PT</option>
+            <option value="en" class="bg-leather-dark text-parchment-light">EN</option>
+          </select>
+        </div>
+
+        <button onclick="saveToLocalStorage(true)" class="btn-medieval px-2.5 py-1.5 rounded-lg flex items-center gap-1.5 font-medium" title="Guardar progreso en este navegador">
+          <i data-lucide="save" class="w-3.5 h-3.5 text-gold-light"></i>
+          <span data-i18n="btnSave">Guardar</span>
+        </button>
+
+        <button onclick="exportJSON()" class="btn-medieval px-2.5 py-1.5 rounded-lg flex items-center gap-1.5 font-medium" title="Descargar archivo .json con los datos del personaje">
+          <i data-lucide="download" class="w-3.5 h-3.5 text-gold-light"></i>
+          <span class="hidden md:inline" data-i18n="btnExport">Exportar</span> JSON
+        </button>
+
+        <label class="btn-medieval px-2.5 py-1.5 rounded-lg flex items-center gap-1.5 font-medium cursor-pointer" title="Cargar archivo .json guardado previamente">
+          <i data-lucide="upload" class="w-3.5 h-3.5 text-gold-light"></i>
+          <span class="hidden md:inline" data-i18n="btnImport">Importar</span> JSON
+          <input type="file" id="json-import-input" accept=".json" class="hidden" onchange="importJSON(event)">
+        </label>
+
+        <button onclick="printSheet()" class="btn-crimson px-3 py-1.5 rounded-lg flex items-center gap-1.5 font-semibold shadow" title="Imprimir o guardar como PDF limpio">
+          <i data-lucide="printer" class="w-3.5 h-3.5"></i>
+          <span data-i18n="btnPrint">Imprimir / PDF</span>
+        </button>
+
+        <button onclick="openResetModal()" class="bg-stone-800 hover:bg-red-950 text-stone-300 hover:text-red-200 border border-stone-600 px-2.5 py-1.5 rounded-lg flex items-center gap-1 transition" title="Limpiar toda la ficha">
+          <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+          <span class="hidden lg:inline" data-i18n="btnReset">Reiniciar</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- NOTIFICACIÓN FLOTANTE (TOAST) -->
+  <div id="toast-container" class="no-print fixed bottom-4 left-1/2 -translate-x-1/2 z-50 flex flex-col gap-2 pointer-events-none w-11/12 max-w-md"></div>
+
+  <!-- CONTENEDOR PRINCIPAL -->
+  <main class="max-w-7xl mx-auto px-2 sm:px-5 pt-4 sm:pt-6">
+    <div class="grid grid-cols-1 xl:grid-cols-12 gap-6 items-start">
+
+      <!-- COLUMNA IZQUIERDA / CENTRAL: LA FICHA DE PERGAMINO (9 cols en XL) -->
+      <div class="xl:col-span-9 parchment-sheet rounded-xl shadow-parchment p-4 sm:p-7 md:p-8">
+        <!-- Adornos de esquinas -->
+        <div class="corner-ornament corner-tl"></div>
+        <div class="corner-ornament corner-tr"></div>
+        <div class="corner-ornament corner-bl"></div>
+        <div class="corner-ornament corner-br"></div>
+
+        <!-- TÍTULO DE LA FICHA -->
+        <div class="text-center border-b-2 border-crimson/60 pb-3 mb-6">
+          <div class="flex items-center justify-center gap-3 text-crimson mb-1">
+            <span class="h-[1px] w-10 sm:w-20 bg-gradient-to-r from-transparent to-crimson"></span>
+            <i data-lucide="swords" class="w-5 h-5 text-gold-dark"></i>
+            <span class="font-serif text-xs uppercase tracking-[0.25em] text-ink-muted font-bold" data-i18n="guildRegister">Registro del Gremio</span>
+            <i data-lucide="swords" class="w-5 h-5 text-gold-dark"></i>
+            <span class="h-[1px] w-10 sm:w-20 bg-gradient-to-l from-transparent to-crimson"></span>
+          </div>
+          <h2 class="font-display text-2xl sm:text-3xl md:text-4xl font-black text-ink tracking-wide" data-i18n="sheetTitle">
+            FICHA DE PERSONAJE
+          </h2>
+        </div>
+
+        <!-- ===================================================================== -->
+        <!-- SECCIÓN 1: ENCABEZADO, IDENTIDAD Y RETRATO DEL PERSONAJE              -->
+        <!-- ===================================================================== -->
+        <section aria-labelledby="section-identity" class="mb-7">
+          <div class="flex items-center gap-2 mb-4 border-b border-parchment-border pb-1.5">
+            <i data-lucide="scroll-text" class="w-5 h-5 text-crimson"></i>
+            <h3 id="section-identity" class="font-serif text-lg sm:text-xl font-bold text-crimson uppercase tracking-wider" data-i18n="sec1Title">
+              1. Identidad, Linaje y Vocación
+            </h3>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            <!-- MARCO DE RETRATO DEL PERSONAJE CON ENMARCADO MANUAL (4 columnas) -->
+            <div class="lg:col-span-4 flex flex-col items-center">
+              <div id="portrait-dropzone" 
+                   class="relative w-full max-w-[260px] aspect-[3/4] rounded-xl border-4 border-double border-gold-dark bg-leather-dark/90 shadow-lg overflow-hidden group select-none flex flex-col items-center justify-center text-center transition hover:border-crimson cursor-pointer"
+                   onclick="handlePortraitBoxClick(event)">
+                
+                <!-- Imagen previsualizada manipulable (Pan X/Y, Zoom, Rotación) -->
+                <img id="portrait-preview" 
+                     src="" 
+                     alt="Retrato del Personaje" 
+                     draggable="false"
+                     class="hidden absolute top-1/2 left-1/2 max-w-none max-h-none w-full h-full object-contain pointer-events-none select-none"
+                     style="transform: translate(-50%, -50%) translate(0px, 0px) scale(1) rotate(0deg);">
+
+                <!-- Placeholder cuando no hay foto -->
+                <div id="portrait-placeholder" class="p-4 flex flex-col items-center justify-center text-parchment-dark">
+                  <div class="w-16 h-16 rounded-full border-2 border-gold/50 bg-leather/80 flex items-center justify-center mb-3 group-hover:scale-105 transition">
+                    <i data-lucide="user-plus" class="w-8 h-8 text-gold-light"></i>
+                  </div>
+                  <p class="font-serif text-sm font-bold text-gold-light tracking-wide" data-i18n="portraitTitle">Retrato del Personaje</p>
+                  <p class="font-sans text-xs text-parchment/75 mt-1" data-i18n="portraitDropHint">Haz clic o arrastra una imagen aquí</p>
+                  <span class="mt-3 inline-block px-2.5 py-1 rounded bg-crimson/80 border border-gold/40 text-[11px] font-sans text-parchment-light">
+                    JPG, PNG, WEBP
+                  </span>
+                </div>
+
+                <!-- Indicador discreto de arrastre cuando hay foto -->
+                <div id="portrait-drag-hint" class="no-print hidden absolute bottom-2 left-1/2 -translate-x-1/2 px-2.5 py-0.5 rounded-full bg-black/70 border border-gold/40 text-[10px] font-sans text-gold-light opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap flex items-center gap-1">
+                  <i data-lucide="move" class="w-3 h-3"></i>
+                  <span data-i18n="portraitDragHint">Arrastra para encuadrar</span>
+                </div>
+
+                <!-- Botón rápido para subir otra imagen -->
+                <button type="button" id="portrait-change-btn"
+                        onclick="event.stopPropagation(); document.getElementById('portrait-file-input').click();"
+                        title="Subir otra imagen desde dispositivo"
+                        class="no-print hidden absolute top-2 right-2 px-2 py-1 rounded-lg bg-leather-dark/90 hover:bg-crimson border border-gold/60 text-gold-light text-[11px] font-sans font-medium items-center gap-1 shadow transition">
+                  <i data-lucide="camera" class="w-3.5 h-3.5"></i>
+                  <span data-i18n="portraitChange">Cambiar</span>
+                </button>
+              </div>
+
+              <input type="file" id="portrait-file-input" accept="image/*" class="hidden" onchange="handlePortraitFile(event)">
+
+              <!-- Controles de Retrato (URL, Zoom, Rotación y Restablecer) -->
+              <div class="no-print w-full max-w-[260px] mt-2.5 space-y-2">
+                <div class="flex gap-1">
+                  <input type="url" id="portrait-url-input" placeholder="O pega URL de imagen..." 
+                         class="ink-input rounded-lg px-2.5 py-1 text-xs font-sans w-full"
+                         onchange="handlePortraitURL(this.value)">
+                  <button type="button" onclick="clearPortrait()" title="Quitar retrato"
+                          class="px-2 py-1 rounded-lg bg-stone-800 text-stone-200 hover:bg-crimson text-xs transition">
+                    <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                  </button>
+                </div>
+
+                <!-- Panel completo de encuadre manual (Zoom, Rotación y Centrado) -->
+                <div id="portrait-adjust-controls" class="hidden bg-parchment-dark/75 border border-parchment-border rounded-xl p-2.5 text-xs font-sans space-y-2 shadow-inner">
+                  <!-- Control de Zoom -->
+                  <div>
+                    <div class="flex items-center justify-between text-[11px] text-ink font-semibold mb-1">
+                      <span class="flex items-center gap-1"><i data-lucide="zoom-in" class="w-3 h-3 text-crimson"></i> <span data-i18n="zoomLabel">Zoom:</span></span>
+                      <span id="portrait-zoom-label" class="font-mono text-crimson">100%</span>
+                    </div>
+                    <div class="flex items-center gap-1.5">
+                      <button type="button" onclick="stepPortraitZoom(-10)" title="Alejar (-10%)"
+                              class="w-6 h-6 rounded bg-leather text-gold-light hover:bg-crimson flex items-center justify-center font-bold shrink-0 transition">
+                        -
+                      </button>
+                      <input type="range" id="portrait-zoom-slider" min="50" max="300" value="100" step="5"
+                             class="w-full accent-crimson cursor-pointer h-1.5"
+                             oninput="handlePortraitZoomSlider(this.value)">
+                      <button type="button" onclick="stepPortraitZoom(10)" title="Acercar (+10%)"
+                              class="w-6 h-6 rounded bg-leather text-gold-light hover:bg-crimson flex items-center justify-center font-bold shrink-0 transition">
+                        +
+                      </button>
+                    </div>
+                  </div>
+
+                  <!-- Control de Rotación -->
+                  <div>
+                    <div class="flex items-center justify-between text-[11px] text-ink font-semibold mb-1">
+                      <span class="flex items-center gap-1"><i data-lucide="rotate-cw" class="w-3 h-3 text-crimson"></i> <span data-i18n="rotateLabel">Rotación:</span></span>
+                      <span id="portrait-rotate-label" class="font-mono text-crimson">0°</span>
+                    </div>
+                    <div class="flex items-center gap-1.5">
+                      <button type="button" onclick="stepPortraitRotation(-90)" title="Rotar -90°"
+                              class="px-1.5 h-6 rounded bg-leather text-gold-light hover:bg-crimson flex items-center justify-center text-[10px] font-bold shrink-0 transition">
+                        -90°
+                      </button>
+                      <input type="range" id="portrait-rotate-slider" min="-180" max="180" value="0" step="1"
+                             class="w-full accent-crimson cursor-pointer h-1.5"
+                             oninput="handlePortraitRotateSlider(this.value)">
+                      <button type="button" onclick="stepPortraitRotation(90)" title="Rotar +90°"
+                              class="px-1.5 h-6 rounded bg-leather text-gold-light hover:bg-crimson flex items-center justify-center text-[10px] font-bold shrink-0 transition">
+                        +90°
+                      </button>
+                    </div>
+                  </div>
+
+                  <!-- Botón Restablecer Encuadre -->
+                  <div class="pt-1 border-t border-parchment-border/70 flex items-center justify-between gap-2">
+                    <span class="text-[10px] text-ink-muted" data-i18n="dragPhotoSub">Arrastra foto para mover</span>
+                    <button type="button" onclick="resetPortraitFraming()"
+                            class="px-2 py-1 rounded bg-parchment-light hover:bg-crimson hover:text-white border border-parchment-border text-ink font-semibold text-[11px] flex items-center gap-1 transition">
+                      <i data-lucide="maximize-2" class="w-3 h-3"></i>
+                      <span data-i18n="resetFrameBtn">Restablecer</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- CAMPOS DE IDENTIDAD (8 columnas) -->
+            <div class="lg:col-span-8 space-y-3.5">
+              <!-- Fila 1: Nombre y Rango GM -->
+              <div class="grid grid-cols-1 sm:grid-cols-12 gap-3">
+                <div class="sm:col-span-7">
+                  <label for="char-name" class="block font-serif text-xs font-bold uppercase tracking-wider text-ink-muted mb-1" data-i18n="lblName">
+                    Nombre del Personaje *
+                  </label>
+                  <input type="text" id="char-name" placeholder="Ej. Aldric Valenwood" 
+                         class="ink-input w-full rounded-lg px-3 py-2 text-lg font-bold font-serif"
+                         oninput="updateSheetState()">
+                </div>
+                <div class="sm:col-span-5">
+                  <label for="char-rank" class="block font-serif text-xs font-bold uppercase tracking-wider text-crimson mb-1 flex items-center gap-1">
+                    <i data-lucide="crown" class="w-3.5 h-3.5"></i> <span data-i18n="lblRank">Rango Asignado por el GM</span>
+                  </label>
+                  <input type="text" id="char-rank" placeholder="Ej. Iniciado / Rango Hierro" 
+                         class="ink-input w-full rounded-lg px-3 py-2 text-base font-semibold border-crimson/50"
+                         oninput="updateSheetState()">
+                </div>
+              </div>
+
+              <!-- Fila 2: Edad, Profesión Original, Altura y Peso -->
+              <div class="grid grid-cols-2 sm:grid-cols-12 gap-3">
+                <div class="col-span-1 sm:col-span-2">
+                  <label for="char-age" class="block font-serif text-xs font-bold uppercase tracking-wider text-ink-muted mb-1" data-i18n="lblAge">
+                    Edad
+                  </label>
+                  <input type="text" id="char-age" placeholder="28 años" 
+                         class="ink-input w-full rounded-lg px-2.5 py-1.5 text-base"
+                         oninput="updateSheetState()">
+                </div>
+
+                <div class="col-span-1 sm:col-span-4">
+                  <label for="char-profession" class="block font-serif text-xs font-bold uppercase tracking-wider text-ink-muted mb-1" data-i18n="lblProfession">
+                    Profesión Original
+                  </label>
+                  <input type="text" id="char-profession" placeholder="Ej. Herrero, Sepulturero..." 
+                         class="ink-input w-full rounded-lg px-2.5 py-1.5 text-base"
+                         oninput="updateSheetState()">
+                </div>
+
+                <div class="col-span-1 sm:col-span-3">
+                  <label for="char-height" class="block font-serif text-xs font-bold uppercase tracking-wider text-ink-muted mb-1" data-i18n="lblHeight">
+                    Altura (m)
+                  </label>
+                  <div class="relative">
+                    <input type="number" id="char-height" step="0.01" min="0.30" max="3.50" placeholder="1.75" 
+                           class="ink-input w-full rounded-lg px-2.5 py-1.5 text-base pr-7 font-semibold"
+                           oninput="validateHeightAndRace(); updateSheetState();">
+                    <span class="absolute right-2.5 top-1/2 -translate-y-1/2 text-xs font-sans text-ink-muted">m</span>
+                  </div>
+                </div>
+
+                <div class="col-span-1 sm:col-span-3">
+                  <label for="char-weight" class="block font-serif text-xs font-bold uppercase tracking-wider text-ink-muted mb-1" data-i18n="lblWeight">
+                    Peso (kg)
+                  </label>
+                  <div class="relative">
+                    <input type="number" id="char-weight" step="0.5" min="1" max="500" placeholder="76" 
+                           class="ink-input w-full rounded-lg px-2.5 py-1.5 text-base pr-8 font-semibold"
+                           oninput="updateSheetState()">
+                    <span class="absolute right-2.5 top-1/2 -translate-y-1/2 text-xs font-sans text-ink-muted">kg</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Alerta de validación de altura para Enanos -->
+              <div id="dwarf-height-warning" class="hidden rounded-lg bg-red-950/90 border border-red-500 text-red-100 px-3 py-2 text-xs font-sans flex items-center gap-2">
+                <i data-lucide="alert-triangle" class="w-4 h-4 text-red-400 shrink-0"></i>
+                <span data-i18n-html="dwarfWarning"><strong>Regla de Raza (Enano):</strong> La estatura máxima permitida es de <strong>1,50 m</strong>. Ajusta la altura para cumplir la normativa.</span>
+              </div>
+
+              <!-- Fila 3: Raza, Clase y Nivel de Maná con Interruptor de Historia -->
+              <div class="grid grid-cols-1 sm:grid-cols-12 gap-3">
+                <!-- Selector de Raza -->
+                <div class="sm:col-span-4">
+                  <label for="char-race" class="block font-serif text-xs font-bold uppercase tracking-wider text-ink-muted mb-1" data-i18n="lblRace">
+                    Raza (7 Jugables)
+                  </label>
+                  <select id="char-race" class="ink-input w-full rounded-lg px-2.5 py-2 text-base font-semibold cursor-pointer"
+                          onchange="handleRaceChange(); updateSheetState();">
+                    <option value="Humano">Humano</option>
+                    <option value="Elfo">Elfo</option>
+                    <option value="Elfo negro">Elfo negro</option>
+                    <option value="Lyazard">Lyazard</option>
+                    <option value="Enano">Enano (Máx. 1,50 m)</option>
+                    <option value="Muerto viviente">Muerto viviente</option>
+                    <option value="Orco">Orco</option>
+                  </select>
+                </div>
+
+                <!-- Selector de Clase -->
+                <div class="sm:col-span-4">
+                  <label for="char-class" class="block font-serif text-xs font-bold uppercase tracking-wider text-ink-muted mb-1" data-i18n="lblClass">
+                    Clase (10 Jugables)
+                  </label>
+                  <select id="char-class" class="ink-input w-full rounded-lg px-2.5 py-2 text-base font-semibold cursor-pointer"
+                          onchange="handleClassChange(); updateSheetState();">
+                    <optgroup id="optgrp-no-mana" label="Sin uso nativo de maná">
+                      <option value="Caballero">Caballero</option>
+                      <option value="Mercenario">Mercenario</option>
+                      <option value="Pícaro">Pícaro</option>
+                      <option value="Asesino">Asesino</option>
+                      <option value="Arquero">Arquero</option>
+                    </optgroup>
+                    <optgroup id="optgrp-special-mana" label="Clase Especial (Maná por Rango)">
+                      <option value="Bardo">Bardo (Pentagrama desbloqueable)</option>
+                    </optgroup>
+                    <optgroup id="optgrp-native-mana" label="Con uso nativo de maná (*)">
+                      <option value="Mago">Mago *</option>
+                      <option value="Monje">Monje *</option>
+                      <option value="Jerarca">Jerarca *</option>
+                      <option value="Nigromante">Nigromante *</option>
+                    </optgroup>
+                  </select>
+                </div>
+
+                <!-- Nivel de Maná + Botón Interruptor Manual (Historia / Evolución) -->
+                <div class="sm:col-span-4">
+                  <div class="flex items-center justify-between gap-1 mb-1">
+                    <label for="char-mana" class="font-serif text-xs font-bold uppercase tracking-wider text-ink-muted flex items-center gap-1">
+                      <i data-lucide="sparkles" class="w-3.5 h-3.5 text-blue-800"></i> <span data-i18n="lblMana">Nivel de Maná</span>
+                    </label>
+                    <button type="button" id="mana-toggle-btn" onclick="toggleManualMana()"
+                            title="Activar o desactivar el acceso al maná según la historia o evolución del personaje"
+                            class="no-print px-2 py-0.5 rounded-full text-[10px] font-sans font-bold border transition flex items-center gap-1 shadow-sm">
+                      <span id="mana-toggle-dot" class="w-2 h-2 rounded-full bg-stone-400"></span>
+                      <span id="mana-toggle-text">Sin Maná</span>
+                    </button>
+                  </div>
+                  <input type="text" id="char-mana" value="No aplica / Sin acceso al maná" disabled
+                         placeholder="Ej. 100 / Nvl 1"
+                         class="ink-input w-full rounded-lg px-2.5 py-2 text-sm font-semibold text-center transition-all"
+                         oninput="updateSheetState()">
+                </div>
+              </div>
+
+              <!-- Recuadro de Notas Especiales de Raza y Clase -->
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-2.5">
+                <!-- Nota de Raza -->
+                <div id="race-note-box" class="rounded-lg bg-parchment-dark/60 border border-parchment-border p-2.5 text-sm">
+                  <div class="flex items-center gap-1.5 font-serif text-xs font-bold text-ink uppercase mb-0.5">
+                    <i data-lucide="users" class="w-3.5 h-3.5 text-crimson"></i>
+                    <span id="race-note-title">Linaje: Humano</span>
+                  </div>
+                  <p id="race-note-text" class="text-ink-muted text-xs sm:text-sm leading-snug">
+                    Versátiles y ambiciosos; sin restricciones físicas ni arcanas particulares.
+                  </p>
+                </div>
+
+                <!-- Nota de Clase + Opción Pentagrama del Bardo -->
+                <div id="class-note-box" class="rounded-lg bg-parchment-dark/60 border border-parchment-border p-2.5 text-sm">
+                  <div class="flex items-center justify-between gap-1 font-serif text-xs font-bold text-ink uppercase mb-0.5">
+                    <span class="flex items-center gap-1.5">
+                      <i data-lucide="shield" class="w-3.5 h-3.5 text-crimson"></i>
+                      <span id="class-note-title">Clase: Caballero</span>
+                    </span>
+                    <span id="mana-badge" class="px-1.5 py-0.5 rounded text-[10px] font-sans bg-stone-700 text-stone-200">
+                      Sin Maná
+                    </span>
+                  </div>
+                  <p id="class-note-text" class="text-ink-muted text-xs sm:text-sm leading-snug">
+                    Combatiente marcial sin uso nativo de maná.
+                  </p>
+                  <!-- Toggle exclusivo para el Bardo -->
+                  <div id="bard-pentagram-control" class="hidden mt-2 pt-2 border-t border-parchment-border/80 flex items-center justify-between gap-2">
+                    <label for="bard-pentagram-checkbox" class="flex items-center gap-2 cursor-pointer font-sans text-xs font-semibold text-crimson-dark">
+                      <input type="checkbox" id="bard-pentagram-checkbox" class="w-4 h-4 accent-crimson rounded cursor-pointer" onchange="handleBardPentagramToggle(); updateSheetState();">
+                      <span data-i18n="bardPentagramLabel">Pentagrama Obtenido (Habilitar Maná)</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Espacio amplio para LORE personal -->
+              <div>
+                <label for="char-lore" class="block font-serif text-xs font-bold uppercase tracking-wider text-ink-muted mb-1 flex items-center justify-between">
+                  <span data-i18n="lblLore">Lore Personal, Trasfondo y Cicatrices</span>
+                  <span class="font-sans text-[11px] font-normal italic text-ink-muted" data-i18n="lblLoreSub">Historia, motivaciones, juramentos o pactos</span>
+                </label>
+                <textarea id="char-lore" rows="4" 
+                          placeholder="Escribe aquí la historia de tu personaje, su origen, por qué abandonó su profesión original, sus heridas o qué busca en este mundo oscuro..."
+                          class="ink-input w-full rounded-lg p-3 text-base leading-relaxed resize-y"
+                          oninput="updateSheetState()"></textarea>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===================================================================== -->
+        <!-- SECCIÓN 2: SISTEMA DE DADOS Y TABLA ESTADÍSTICA INDIVIDUAL (TEI)      -->
+        <!-- ===================================================================== -->
+        <section aria-labelledby="section-tei" class="mb-8">
+          <div class="flex flex-wrap items-center justify-between gap-2 mb-3 border-b border-parchment-border pb-1.5">
+            <div class="flex items-center gap-2">
+              <i data-lucide="dices" class="w-5 h-5 text-crimson"></i>
+              <h3 id="section-tei" class="font-serif text-lg sm:text-xl font-bold text-crimson uppercase tracking-wider" data-i18n="sec2Title">
+                2. Tabla Estadística Individual (TEI)
+              </h3>
+            </div>
+
+            <!-- Botón para tirar los 7 atributos d20 -->
+            <button type="button" onclick="rollAllAttributes()" class="no-print btn-crimson px-3.5 py-1.5 rounded-lg font-sans text-xs font-semibold flex items-center gap-1.5 shadow">
+              <i data-lucide="dice-5" class="w-4 h-4"></i>
+              <span data-i18n="btnRollAll">Tirar los 7 Atributos (d20)</span>
+            </button>
+          </div>
+
+          <!-- Guía rápida de conversión d20 -> TEI -->
+          <div class="rounded-lg bg-leather-dark text-parchment-light border border-gold/60 p-2.5 mb-3 text-xs font-sans">
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-1.5">
+              <span class="font-serif font-bold text-gold-light uppercase tracking-wider flex items-center gap-1.5">
+                <i data-lucide="info" class="w-3.5 h-3.5"></i> <span data-i18n="teiConvTitle">Conversión d20 a TEI (Escala 1 a 10 — Dividiendo de 2 en 2):</span>
+              </span>
+              <span class="text-parchment-dark text-[11px]" data-i18n="teiFormula">Fórmula: ⌈d20 ÷ 2⌉</span>
+            </div>
+            <div class="grid grid-cols-5 sm:grid-cols-10 gap-1 text-center text-[11px]">
+              <div class="bg-leather border border-gold/30 rounded py-0.5"><span class="text-parchment-dark">1-2:</span> <strong class="text-gold-light">1</strong></div>
+              <div class="bg-leather border border-gold/30 rounded py-0.5"><span class="text-parchment-dark">3-4:</span> <strong class="text-gold-light">2</strong></div>
+              <div class="bg-leather border border-gold/30 rounded py-0.5"><span class="text-parchment-dark">5-6:</span> <strong class="text-gold-light">3</strong></div>
+              <div class="bg-leather border border-gold/30 rounded py-0.5"><span class="text-parchment-dark">7-8:</span> <strong class="text-gold-light">4</strong></div>
+              <div class="bg-leather border border-gold/30 rounded py-0.5"><span class="text-parchment-dark">9-10:</span> <strong class="text-gold-light">5</strong></div>
+              <div class="bg-leather border border-gold/30 rounded py-0.5"><span class="text-parchment-dark">11-12:</span> <strong class="text-gold-light">6</strong></div>
+              <div class="bg-leather border border-gold/30 rounded py-0.5"><span class="text-parchment-dark">13-14:</span> <strong class="text-gold-light">7</strong></div>
+              <div class="bg-leather border border-gold/30 rounded py-0.5"><span class="text-parchment-dark">15-16:</span> <strong class="text-gold-light">8</strong></div>
+              <div class="bg-leather border border-gold/30 rounded py-0.5"><span class="text-parchment-dark">17-18:</span> <strong class="text-amber-300">9</strong></div>
+              <div class="bg-leather border border-gold/30 rounded py-0.5"><span class="text-parchment-dark">19-20:</span> <strong class="text-red-300">10</strong></div>
+            </div>
+          </div>
+
+          <!-- Semáforo de Regla de Límite Máximo (Máx 1 en 10, Máx 2 en 9) -->
+          <div id="tei-limit-banner" class="rounded-lg border-2 p-2.5 mb-4 flex flex-wrap items-center justify-between gap-2 transition-colors bg-emerald-950/10 border-emerald-800/40 text-ink">
+            <div class="flex items-center gap-2 text-xs sm:text-sm font-sans">
+              <i id="tei-limit-icon" data-lucide="check-circle-2" class="w-5 h-5 text-emerald-700 shrink-0"></i>
+              <div data-i18n-html="teiLimitRule">
+                <span class="font-bold">Regla de Límite Máximo:</span>
+                <span>Prohibido tener más de <strong>1 estadística en 10</strong> y más de <strong>2 estadísticas en 9</strong>.</span>
+              </div>
+            </div>
+            <div class="flex items-center gap-2 font-sans text-xs font-bold">
+              <span id="count-10-badge" class="px-2.5 py-1 rounded-md bg-parchment-light border border-parchment-border">
+                <span data-i18n="in10Label">En 10:</span> <span id="count-10-val">0</span>/1
+              </span>
+              <span id="count-9-badge" class="px-2.5 py-1 rounded-md bg-parchment-light border border-parchment-border">
+                <span data-i18n="in9Label">En 9:</span> <span id="count-9-val">0</span>/2
+              </span>
+            </div>
+          </div>
+
+          <!-- Tarjetas de los 7 Atributos -->
+          <div id="attributes-container" class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2.5">
+            <!-- Generado dinámicamente por JS -->
+          </div>
+        </section>
+
+        <!-- ===================================================================== -->
+        <!-- SECCIÓN 3: LISTA DE PERICIAS POR ATRIBUTO (BLOQUE DE 2 COLUMNAS)      -->
+        <!-- ===================================================================== -->
+        <section aria-labelledby="section-skills">
+          <div class="flex flex-wrap items-center justify-between gap-2 mb-3 border-b border-parchment-border pb-1.5">
+            <div class="flex items-center gap-2">
+              <i data-lucide="compass" class="w-5 h-5 text-crimson"></i>
+              <h3 id="section-skills" class="font-serif text-lg sm:text-xl font-bold text-crimson uppercase tracking-wider" data-i18n="sec3Title">
+                3. Pericias por Atributo (TEI)
+              </h3>
+            </div>
+            <span class="font-sans text-xs text-ink-muted italic" data-i18n="skillsClickHint">
+              Haz clic en el círculo de cada pericia para alternar: [ ] &rarr; [X] &rarr; [XX]
+            </span>
+          </div>
+
+          <!-- RECUADRO VISIBLE: REGLA RÁPIDA EN LA FICHA -->
+          <div class="rounded-lg bg-parchment-dark/80 border-2 border-gold-dark p-3 mb-4 shadow-sm">
+            <div class="font-serif text-xs font-bold uppercase tracking-wider text-crimson mb-1.5 flex items-center gap-1.5">
+              <i data-lucide="book-open-check" class="w-4 h-4"></i>
+              <span data-i18n="quickRuleTitle">Regla Rápida en la Ficha (19 Pericias Totales):</span>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs sm:text-sm font-sans">
+              <div class="flex items-center gap-2 bg-parchment-light/80 px-2.5 py-1.5 rounded border border-parchment-border">
+                <span class="inline-flex items-center justify-center w-6 h-6 rounded-full border-2 border-ink bg-white font-bold text-xs shrink-0"></span>
+                <div>
+                  <div class="font-bold text-ink" data-i18n="ruleUnmarked">Sin marcar [ ]</div>
+                  <div class="text-xs text-ink-muted font-mono" data-i18n="ruleUnmarkedFormula">1d20 + Atributo</div>
+                </div>
+              </div>
+              <div class="flex items-center gap-2 bg-parchment-light/80 px-2.5 py-1.5 rounded border border-parchment-border">
+                <span class="inline-flex items-center justify-center w-6 h-6 rounded-full border-2 border-crimson bg-crimson text-white font-bold text-xs shrink-0">X</span>
+                <div>
+                  <div class="font-bold text-ink" data-i18n-html="ruleMarked">Marcada [X] <span class="font-normal text-[11px]">(Clase/Prof.)</span></div>
+                  <div class="text-xs text-crimson font-bold font-mono" data-i18n="ruleMarkedFormula">1d20 + Atributo + 3</div>
+                </div>
+              </div>
+              <div class="flex items-center gap-2 bg-parchment-light/80 px-2.5 py-1.5 rounded border border-parchment-border">
+                <span class="inline-flex items-center justify-center w-6 h-6 rounded-full border-2 border-gold-dark bg-leather-dark text-gold-light font-bold text-[11px] shrink-0">XX</span>
+                <div>
+                  <div class="font-bold text-ink" data-i18n-html="ruleMastery">Maestría [XX] <span class="font-normal text-[11px]">(Subir Rango)</span></div>
+                  <div class="text-xs text-amber-900 font-bold font-mono" data-i18n="ruleMasteryFormula">1d20 + Atributo + 5</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- BLOQUE DE 2 COLUMNAS CON LAS 19 PERICIAS -->
+          <div id="skills-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <!-- Renderizado dinámico por JS respetando estrictamente 2 columnas -->
+          </div>
+        </section>
+
+        <!-- Pie de página de la hoja impresa -->
+        <footer class="mt-6 pt-3 border-t border-parchment-border flex flex-wrap items-center justify-between text-[11px] font-sans text-ink-muted">
+          <span data-i18n="footerLeft">Sistema RPG Medieval • Tabla Estadística Individual (TEI) &amp; d20</span>
+          <span data-i18n="footerRight">Nota: El atributo Suerte no posee pericias asociadas (se emplea en tiradas puras de fortuna).</span>
+        </footer>
+      </div>
+
+      <!-- COLUMNA DERECHA: SIMULADOR DE DADOS & HISTORIAL DE TIRADAS (3 cols en XL, NO IMPRIMIBLE) -->
+      <aside class="no-print xl:col-span-3 space-y-4 xl:sticky xl:top-16">
+        <!-- Torre de Dados d20 -->
+        <div class="rounded-xl bg-leather-dark border-2 border-gold/70 text-parchment-light p-4 shadow-xl">
+          <div class="flex items-center justify-between border-b border-gold/30 pb-2.5 mb-3">
+            <h3 class="font-serif text-base font-bold text-gold-light flex items-center gap-2">
+              <i data-lucide="dices" class="w-5 h-5 text-crimson-light"></i>
+              <span data-i18n="diceTowerTitle">Torre de Dados (d20)</span>
+            </h3>
+            <span class="text-[11px] font-sans px-2 py-0.5 rounded bg-leather border border-gold/40 text-gold-light" data-i18n="mainDieBadge">
+              Dado Principal
+            </span>
+          </div>
+
+          <!-- Visor del último resultado -->
+          <div id="dice-result-display" class="rounded-xl bg-leather border border-gold/40 p-3.5 text-center mb-3 relative overflow-hidden">
+            <div class="text-[11px] font-sans uppercase tracking-wider text-parchment-dark mb-1" id="dice-roll-title" data-i18n="diceReady">
+              Listo para lanzar el d20
+            </div>
+            <div id="dice-roll-number" class="font-display text-4xl sm:text-5xl font-black text-gold-light my-1">
+              20
+            </div>
+            <div id="dice-roll-breakdown" class="font-sans text-xs text-parchment/90 min-h-[18px]" data-i18n="diceReadySub">
+              Pulsa cualquier dado en los atributos o pericias
+            </div>
+          </div>
+
+          <!-- Tirada libre rápida -->
+          <div class="grid grid-cols-2 gap-2 font-sans text-xs">
+            <button type="button" onclick="rollFreeD20()" class="btn-crimson py-2 px-3 rounded-lg font-semibold flex items-center justify-center gap-1.5">
+              <i data-lucide="dice-6" class="w-4 h-4"></i>
+              <span data-i18n="btnRoll1d20">Lanzar 1d20</span>
+            </button>
+            <button type="button" onclick="rollLuckCheck()" class="btn-medieval py-2 px-3 rounded-lg font-semibold flex items-center justify-center gap-1.5">
+              <i data-lucide="clover" class="w-4 h-4 text-emerald-400"></i>
+              <span data-i18n="btnLuckCheck">Prueba Suerte</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Historial de Tiradas -->
+        <div class="rounded-xl bg-leather-dark/95 border border-gold/50 text-parchment-light p-4 shadow-xl">
+          <div class="flex items-center justify-between border-b border-gold/25 pb-2 mb-2.5">
+            <h4 class="font-serif text-sm font-bold text-gold-light flex items-center gap-1.5">
+              <i data-lucide="history" class="w-4 h-4"></i>
+              <span data-i18n="rollHistoryTitle">Crónica de Tiradas</span>
+            </h4>
+            <button type="button" onclick="clearRollHistory()" class="text-[11px] font-sans text-parchment-dark hover:text-red-300 underline" data-i18n="btnClearHistory">
+              Limpiar
+            </button>
+          </div>
+
+          <div id="roll-history-list" class="space-y-2 max-h-[360px] overflow-y-auto pr-1 font-sans text-xs">
+            <p class="text-parchment-dark/70 italic text-center py-4" data-i18n="noRollsYet">
+              Aún no se han realizado tiradas en esta sesión.
+            </p>
+          </div>
+        </div>
+
+        <!-- Resumen de Estado de Validación de Ficha -->
+        <div class="rounded-xl bg-leather-dark/95 border border-gold/50 text-parchment-light p-4 shadow-xl font-sans text-xs space-y-2">
+          <h4 class="font-serif text-sm font-bold text-gold-light flex items-center gap-1.5 border-b border-gold/25 pb-2">
+            <i data-lucide="clipboard-check" class="w-4 h-4"></i>
+            <span data-i18n="sheetStatusTitle">Estado de la Ficha</span>
+          </h4>
+          <div id="validation-summary-list" class="space-y-1.5">
+            <!-- Rellenado dinámicamente -->
+          </div>
+        </div>
+      </aside>
+
+    </div>
+  </main>
+
+  <!-- MODAL DE CONFIRMACIÓN DE REINICIO -->
+  <div id="reset-modal" class="no-print hidden fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="parchment-sheet rounded-xl max-w-md w-full p-6 shadow-2xl border-2 border-crimson">
+      <div class="flex items-center gap-2.5 text-crimson mb-2">
+        <i data-lucide="alert-octagon" class="w-6 h-6"></i>
+        <h3 class="font-serif text-lg font-bold" data-i18n="resetModalTitle">¿Reiniciar Ficha de Personaje?</h3>
+      </div>
+      <p class="text-sm text-ink mb-5 leading-relaxed" data-i18n-html="resetModalBody">
+        Se borrarán todos los datos actuales, el retrato, las estadísticas TEI y las pericias marcadas. Si deseas conservar este personaje, exporta primero un archivo <strong>JSON</strong>.
+      </p>
+      <div class="flex justify-end gap-2.5 font-sans text-xs">
+        <button type="button" onclick="closeResetModal()" class="px-4 py-2 rounded-lg border border-parchment-border bg-parchment-light hover:bg-parchment-dark font-semibold text-ink" data-i18n="btnCancel">
+          Cancelar
+        </button>
+        <button type="button" onclick="confirmResetSheet()" class="btn-crimson px-4 py-2 rounded-lg font-semibold" data-i18n="btnConfirmReset">
+          Sí, reiniciar ficha
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================================= -->
+  <!-- LÓGICA DE LA APLICACIÓN (JAVASCRIPT)                                    -->
+  <!-- ======================================================================= -->
+  <script>
+    // 0. DICCIONARIO MULTILINGÜE (ESPAÑOL, PORTUGUÊS, ENGLISH)
+    const I18N = {
+      es: {
+        headerSub: "Creador Oficial de Fichas & Sistema TEI (d20)",
+        btnSave: "Guardar",
+        btnExport: "Exportar",
+        btnImport: "Importar",
+        btnPrint: "Imprimir / PDF",
+        btnReset: "Reiniciar",
+        guildRegister: "Registro del Gremio",
+        sheetTitle: "FICHA DE PERSONAJE",
+        sec1Title: "1. Identidad, Linaje y Vocación",
+        portraitTitle: "Retrato del Personaje",
+        portraitDropHint: "Haz clic o arrastra una imagen aquí",
+        portraitDragHint: "Arrastra para encuadrar",
+        portraitChange: "Cambiar",
+        portraitUrlPlaceholder: "O pega URL de imagen...",
+        zoomLabel: "Zoom:",
+        rotateLabel: "Rotación:",
+        dragPhotoSub: "Arrastra foto para mover",
+        resetFrameBtn: "Restablecer",
+        lblName: "Nombre del Personaje *",
+        phName: "Ej. Aldric Valenwood",
+        lblRank: "Rango Asignado por el GM",
+        phRank: "Ej. Iniciado / Rango Hierro",
+        lblAge: "Edad",
+        phAge: "28 años",
+        lblProfession: "Profesión Original",
+        phProfession: "Ej. Herrero, Sepulturero...",
+        lblHeight: "Altura (m)",
+        lblWeight: "Peso (kg)",
+        dwarfWarning: "<strong>Regla de Raza (Enano):</strong> La estatura máxima permitida es de <strong>1,50 m</strong>. Ajusta la altura para cumplir la normativa.",
+        lblRace: "Raza (7 Jugables)",
+        lblClass: "Clase (10 Jugables)",
+        optgrpNoMana: "Sin uso nativo de maná",
+        optgrpSpecialMana: "Clase Especial (Maná por Rango)",
+        optgrpNativeMana: "Con uso nativo de maná (*)",
+        lblMana: "Nivel de Maná",
+        phMana: "Ej. 100 / Nvl 1",
+        manaNoApply: "No aplica / Sin acceso al maná",
+        manaToggleOn: "Con Maná",
+        manaToggleOff: "Sin Maná",
+        manaBadgeNative: "Uso Nativo de Maná *",
+        manaBadgeBard: "Maná (Pentagrama)",
+        manaBadgeHistory: "Maná Habilitado (Historia)",
+        manaBadgeNoBard: "Sin Pentagrama aún",
+        manaBadgeNone: "Sin Maná",
+        bardPentagramLabel: "Pentagrama Obtenido (Habilitar Maná)",
+        lblLore: "Lore Personal, Trasfondo y Cicatrices",
+        lblLoreSub: "Historia, motivaciones, juramentos o pactos",
+        phLore: "Escribe aquí la historia de tu personaje, su origen, por qué abandonó su profesión original, sus heridas o qué busca en este mundo oscuro...",
+        sec2Title: "2. Tabla Estadística Individual (TEI)",
+        btnRollAll: "Tirar los 7 Atributos (d20)",
+        teiConvTitle: "Conversión d20 a TEI (Escala 1 a 10 — Dividiendo de 2 en 2):",
+        teiFormula: "Fórmula: ⌈d20 ÷ 2⌉",
+        teiLimitRule: "<span class=\"font-bold\">Regla de Límite Máximo:</span> <span>Prohibido tener más de <strong>1 estadística en 10</strong> y más de <strong>2 estadísticas en 9</strong>.</span>",
+        in10Label: "En 10:",
+        in9Label: "En 9:",
+        manualVal: "Valor manual",
+        sec3Title: "3. Pericias por Atributo (TEI)",
+        skillsClickHint: "Haz clic en el círculo de cada pericia para alternar: [ ] → [X] → [XX]",
+        quickRuleTitle: "Regla Rápida en la Ficha (19 Pericias Totales):",
+        ruleUnmarked: "Sin marcar [ ]",
+        ruleUnmarkedFormula: "1d20 + Atributo",
+        ruleMarked: "Marcada [X] <span class=\"font-normal text-[11px]\">(Clase/Prof.)</span>",
+        ruleMarkedFormula: "1d20 + Atributo + 3",
+        ruleMastery: "Maestría [XX] <span class=\"font-normal text-[11px]\">(Subir Rango)</span>",
+        ruleMasteryFormula: "1d20 + Atributo + 5",
+        footerLeft: "Sistema RPG Medieval • Tabla Estadística Individual (TEI) & d20",
+        footerRight: "Nota: El atributo Suerte no posee pericias asociadas (se emplea en tiradas puras de fortuna).",
+        diceTowerTitle: "Torre de Dados (d20)",
+        mainDieBadge: "Dado Principal",
+        diceReady: "Listo para lanzar el d20",
+        diceReadySub: "Pulsa cualquier dado en los atributos o pericias",
+        btnRoll1d20: "Lanzar 1d20",
+        btnLuckCheck: "Prueba Suerte",
+        rollHistoryTitle: "Crónica de Tiradas",
+        btnClearHistory: "Limpiar",
+        noRollsYet: "Aún no se han realizado tiradas en esta sesión.",
+        sheetStatusTitle: "Estado de la Ficha",
+        statusIdentity: "Identidad:",
+        statusNoName: "Sin nombre",
+        statusHeightRule: "Regla Estatura",
+        statusValid: "Válida",
+        statusExceedsHeight: "Excede 1,50 m",
+        statusTeiLimits: "Límites TEI (10/9):",
+        statusMeetsRule: "Cumple regla",
+        statusExcessDetected: "Exceso detectado",
+        statusSkills: "Pericias:",
+        resetModalTitle: "¿Reiniciar Ficha de Personaje?",
+        resetModalBody: "Se borrarán todos los datos actuales, el retrato, las estadísticas TEI y las pericias marcadas. Si deseas conservar este personaje, exporta primero un archivo <strong>JSON</strong>.",
+        btnCancel: "Cancelar",
+        btnConfirmReset: "Sí, reiniciar ficha",
+        races: {
+          "Humano": { opt: "Humano", title: "Linaje: Humano", note: "Versátiles y ambiciosos; sin restricciones físicas ni arcanas particulares." },
+          "Elfo": { opt: "Elfo", title: "Linaje: Elfo", note: "Pueblo ancestral afinado con la naturaleza y las artes antiguas (en contraste con los Elfos Negros)." },
+          "Elfo negro": { opt: "Elfo negro", title: "Linaje: Elfo negro", note: "Etnia distinta al elfo común; piel oscura y orientados al oscurismo (al contrario de los elfos comunes)." },
+          "Lyazard": { opt: "Lyazard", title: "Linaje: Lyazard", note: "Estirpe reptiliana de escamas resistentes y presencia imponente." },
+          "Enano": { opt: "Enano (Máx. 1,50 m)", title: "Linaje: Enano (Máx. 1,50 m)", note: "Estatura máxima permitida de 1,50 m. Forjadores incansables y resistentes." },
+          "Muerto viviente": { opt: "Muerto viviente", title: "Linaje: Muerto viviente", note: "Si muere, es el único que no necesita crear un personaje nuevo; puede ser revivido por un nigromante a partir de cualquier parte de su cadáver (si su cuerpo es quemado, muere definitivamente)." },
+          "Orco": { opt: "Orco", title: "Linaje: Orco", note: "Razas realmente agresivas e inteligentes (no el estereotipo de orcos tontos)." }
+        },
+        classes: {
+          "Caballero": { opt: "Caballero", title: "Clase: Caballero", note: "Combatiente acorazado de vanguardia. Sin uso nativo de maná." },
+          "Mercenario": { opt: "Mercenario", title: "Clase: Mercenario", note: "Guerrero pragmático experto en armas y supervivencia. Sin uso nativo de maná." },
+          "Pícaro": { opt: "Pícaro", title: "Clase: Pícaro", note: "Especialista en sigilo, trampas y ataques oportunistas. Sin uso nativo de maná." },
+          "Asesino": { opt: "Asesino", title: "Clase: Asesino", note: "Letal en las sombras, conocedor de venenos y puntos vitales. Sin uso nativo de maná." },
+          "Arquero": { opt: "Arquero", title: "Clase: Arquero", note: "Tirador de precisión y rastreador a distancia. Sin uso nativo de maná." },
+          "Bardo": { opt: "Bardo (Pentagrama desbloqueable)", title: "Clase: Bardo", note: "Empieza peleando de forma física/básica (a golpes y navajazos), pero al alcanzar cierto Rango obtiene un Pentagrama que le permite usar maná, tocando tonadas para derrotar enemigos mediante acumulación de debuffs y santificación (según el tipo de monstruo)." },
+          "Mago": { opt: "Mago *", title: "Clase: Mago *", note: "Erudito de las artes arcanas y conjuros elementales/ocultos. Con uso nativo de maná (*)." },
+          "Monje": { opt: "Monje *", title: "Clase: Monje *", note: "Disciplina marcial y canalización espiritual de energía interior. Con uso nativo de maná (*)." },
+          "Jerarca": { opt: "Jerarca *", title: "Clase: Jerarca *", note: "Autoridad sagrada capaz de invocar plegarias, sanación y santificación. Con uso nativo de maná (*)." },
+          "Nigromante": { opt: "Nigromante *", title: "Clase: Nigromante *", note: "Manipulador de la muerte, cadáveres y magia oscura (puede revivir Muertos Vivientes). Con uso nativo de maná (*)." }
+        },
+        attributes: {
+          fuerza: { name: "Fuerza", short: "FUE" },
+          agilidad: { name: "Agilidad", short: "AGI" },
+          vitalidad: { name: "Vitalidad", short: "VIT" },
+          percepcion: { name: "Percepción", short: "PER" },
+          carisma: { name: "Carisma", short: "CAR" },
+          suerte: { name: "Suerte", short: "SUE" },
+          espiritu: { name: "Espíritu", short: "ESP" }
+        },
+        skills: {
+          atletismo: { name: "Atletismo", desc: "Trepar, saltar, nadar, forcejear o derribar puertas pesadas." },
+          intimidacion: { name: "Intimidación Física", desc: "Coaccionar o asustar usando el porte, el peso o la fuerza bruta." },
+          carga: { name: "Carga y Resistencia", desc: "Aguantar marchas forzadas o levantar objetos extremos sin fatigarse." },
+          sigilo: { name: "Sigilo", desc: "Moverse sin hacer ruido y ocultarse en las sombras." },
+          acrobacias: { name: "Acrobacias", desc: "Mantener el equilibrio, caer sin hacerse daño o esquivar obstáculos." },
+          juego_manos: { name: "Juego de Manos", desc: "Robar bolsas, ocultar armas pequeñas y abrir cerraduras/trampas." },
+          tolerancia: { name: "Tolerancia", desc: "Resistir venenos, enfermedades, alcohol, frío extremo o tortura." },
+          aguante_combate: { name: "Aguante en Combate", desc: "Mantenerse consciente o seguir peleando tras recibir heridas graves." },
+          alerta: { name: "Alerta / Vigilar", desc: "Detectar emboscadas, ruidos lejanos o movimientos ocultos." },
+          rastreo: { name: "Rastreo", desc: "Seguir huellas, identificar rastros de monstruos y orientarse en la naturaleza." },
+          investigar: { name: "Investigar", desc: "Buscar pasadizos secretos, pistas en una escena o puntos débiles en armaduras." },
+          persuasion: { name: "Persuasión", desc: "Convencer, negociar precios o inspirar confianza con diplomacia." },
+          engano: { name: "Engaño", desc: "Mentir con convicción, disfrazarse o fingir intenciones." },
+          interpretacion: { name: "Interpretación", desc: "Tocar instrumentos, cantar, recitar o distraer multitudes (vital para el Bardo)." },
+          trato_animal: { name: "Trato Animal", desc: "Calmar bestias, montar a caballo o entrenar animales." },
+          arcano: { name: "Conocimiento Arcano / Ocultismo", desc: "Identificar hechizos, runas, maldiciones y magia oscura (clave para Magos y Elfos Negros)." },
+          religion: { name: "Religión y Santificación", desc: "Conocer cultos, deidades, rituales sagrados y debilidades de muertos vivientes o demonios (ideal para Jerarcas y Bardos con Pentagrama)." },
+          necrologia: { name: "Necrología / Anatomía", desc: "Conocer partes del cuerpo, conservar cadáveres, identificar venenos o entender la no-muerte (esencial para Nigromantes, Asesinos y Muertos Vivientes)." },
+          medicina: { name: "Medicina / Primeros Auxilios", desc: "Estabilizar heridos, coser cortes y tratar infecciones sin usar magia." }
+        },
+        toasts: {
+          bardUnlocked: "Pentagrama desbloqueado: El Bardo ahora puede canalizar maná y tonadas.",
+          manaOn: "Uso de Maná ACTIVADO para este personaje.",
+          manaOff: "Uso de Maná DESACTIVADO (No aplica / Sin acceso al maná).",
+          invalidImage: "Por favor selecciona un archivo de imagen válido.",
+          portraitLoaded: "Retrato cargado. Arrastra, haz zoom o rota la foto para enmarcarla.",
+          allTeiRolled: "Los 7 atributos TEI han sido generados respetando los límites de 10 y 9.",
+          savedLocal: "Ficha guardada en el navegador.",
+          saveError: "No se pudo guardar localmente (posible imagen muy pesada).",
+          exportWarn: "Aviso: Se exportará el JSON, pero la ficha tiene advertencias de reglas activas.",
+          exportOk: "Archivo JSON descargado.",
+          importOk: "Ficha importada desde JSON con éxito.",
+          importErr: "El archivo seleccionado no es un JSON válido.",
+          printWarn: "Atención: Revisa las alertas en rojo antes de imprimir tu ficha oficial.",
+          resetOk: "La ficha ha sido reiniciada en blanco."
+        },
+        rolls: {
+          attrLabel: "Atributo",
+          allTeiTitle: "Generación Completa TEI",
+          allTeiHistory: "Tirada Completa TEI",
+          allTeiCount: "7 Atributos",
+          freeRollTitle: "Tirada Libre (1d20)",
+          freeRollHistory: "Tirada Libre 1d20",
+          critSuccess: "¡Éxito Crítico Natural!",
+          critFail: "¡Pifia Natural!",
+          pureDie: "Dado principal d20",
+          pureDieShort: "Dado puro",
+          luckTitle: "Prueba de Suerte",
+          luckAttr: "Suerte",
+          attrShort: "Atrib",
+          skillShort: "Pericia"
+        }
+      },
+      pt: {
+        headerSub: "Criador Oficial de Fichas & Sistema TEI (d20)",
+        btnSave: "Salvar",
+        btnExport: "Exportar",
+        btnImport: "Importar",
+        btnPrint: "Imprimir / PDF",
+        btnReset: "Reiniciar",
+        guildRegister: "Registro da Guilda",
+        sheetTitle: "FICHA DE PERSONAGEM",
+        sec1Title: "1. Identidade, Linhagem e Vocação",
+        portraitTitle: "Retrato do Personagem",
+        portraitDropHint: "Clique ou arraste uma imagem aqui",
+        portraitDragHint: "Arraste para enquadrar",
+        portraitChange: "Alterar",
+        portraitUrlPlaceholder: "Ou cole a URL da imagem...",
+        zoomLabel: "Zoom:",
+        rotateLabel: "Rotação:",
+        dragPhotoSub: "Arraste a foto para mover",
+        resetFrameBtn: "Redefinir",
+        lblName: "Nome do Personagem *",
+        phName: "Ex. Aldric Valenwood",
+        lblRank: "Ranque Atribuído pelo GM",
+        phRank: "Ex. Iniciado / Ranque Ferro",
+        lblAge: "Idade",
+        phAge: "28 anos",
+        lblProfession: "Profissão Original",
+        phProfession: "Ex. Ferreiro, Coveiro...",
+        lblHeight: "Altura (m)",
+        lblWeight: "Peso (kg)",
+        dwarfWarning: "<strong>Regra de Raça (Anão):</strong> A estatura máxima permitida é de <strong>1,50 m</strong>. Ajuste a altura para cumprir a regra.",
+        lblRace: "Raça (7 Jogáveis)",
+        lblClass: "Classe (10 Jogáveis)",
+        optgrpNoMana: "Sem uso nativo de mana",
+        optgrpSpecialMana: "Classe Especial (Mana por Ranque)",
+        optgrpNativeMana: "Com uso nativo de mana (*)",
+        lblMana: "Nível de Mana",
+        phMana: "Ex. 100 / Nvl 1",
+        manaNoApply: "Não se aplica / Sem acesso à mana",
+        manaToggleOn: "Com Mana",
+        manaToggleOff: "Sem Mana",
+        manaBadgeNative: "Uso Nativo de Mana *",
+        manaBadgeBard: "Mana (Pentagrama)",
+        manaBadgeHistory: "Mana Ativada (História)",
+        manaBadgeNoBard: "Sem Pentagrama ainda",
+        manaBadgeNone: "Sem Mana",
+        bardPentagramLabel: "Pentagrama Obtido (Habilitar Mana)",
+        lblLore: "Lore Pessoal, História e Cicatrizes",
+        lblLoreSub: "História, motivações, juramentos ou pactos",
+        phLore: "Escreva aqui a história do seu personagem, sua origem, por que abandonou sua profissão original, suas feridas ou o que busca neste mundo sombrio...",
+        sec2Title: "2. Tabela Estatística Individual (TEI)",
+        btnRollAll: "Rolar os 7 Atributos (d20)",
+        teiConvTitle: "Conversão d20 para TEI (Escala 1 a 10 — Dividindo de 2 em 2):",
+        teiFormula: "Fórmula: ⌈d20 ÷ 2⌉",
+        teiLimitRule: "<span class=\"font-bold\">Regra de Limite Máximo:</span> <span>Proibido ter mais de <strong>1 atributo em 10</strong> e mais de <strong>2 atributos em 9</strong>.</span>",
+        in10Label: "Em 10:",
+        in9Label: "Em 9:",
+        manualVal: "Valor manual",
+        sec3Title: "3. Perícias por Atributo (TEI)",
+        skillsClickHint: "Clique no círculo de cada perícia para alternar: [ ] → [X] → [XX]",
+        quickRuleTitle: "Regra Rápida na Ficha (19 Perícias Totais):",
+        ruleUnmarked: "Sem marcar [ ]",
+        ruleUnmarkedFormula: "1d20 + Atributo",
+        ruleMarked: "Marcada [X] <span class=\"font-normal text-[11px]\">(Classe/Prof.)</span>",
+        ruleMarkedFormula: "1d20 + Atributo + 3",
+        ruleMastery: "Maestria [XX] <span class=\"font-normal text-[11px]\">(Subir Ranque)</span>",
+        ruleMasteryFormula: "1d20 + Atributo + 5",
+        footerLeft: "Sistema RPG Medieval • Tabela Estatística Individual (TEI) & d20",
+        footerRight: "Nota: O atributo Sorte não possui perícias associadas (usado em testes puros de sorte).",
+        diceTowerTitle: "Torre de Dados (d20)",
+        mainDieBadge: "Dado Principal",
+        diceReady: "Pronto para rolar o d20",
+        diceReadySub: "Clique em qualquer dado nos atributos ou perícias",
+        btnRoll1d20: "Rolar 1d20",
+        btnLuckCheck: "Teste de Sorte",
+        rollHistoryTitle: "Crônica de Rolagens",
+        btnClearHistory: "Limpar",
+        noRollsYet: "Nenhuma rolagem realizada nesta sessão ainda.",
+        sheetStatusTitle: "Estado da Ficha",
+        statusIdentity: "Identidade:",
+        statusNoName: "Sem nome",
+        statusHeightRule: "Regra Estatura",
+        statusValid: "Válida",
+        statusExceedsHeight: "Excede 1,50 m",
+        statusTeiLimits: "Limites TEI (10/9):",
+        statusMeetsRule: "Cumpre regra",
+        statusExcessDetected: "Excesso detectado",
+        statusSkills: "Perícias:",
+        resetModalTitle: "Reiniciar Ficha de Personagem?",
+        resetModalBody: "Todos os dados atuais, o retrato, os atributos TEI e as perícias marcadas serão apagados. Se quiser manter este personagem, exporte primeiro um arquivo <strong>JSON</strong>.",
+        btnCancel: "Cancelar",
+        btnConfirmReset: "Sim, reiniciar ficha",
+        races: {
+          "Humano": { opt: "Humano", title: "Linhagem: Humano", note: "Versáteis e ambiciosos; sem restrições físicas ou arcanas particulares." },
+          "Elfo": { opt: "Elfo", title: "Linhagem: Elfo", note: "Povo ancestral em sintonia com a natureza e as artes antigas (ao contrário dos Elfos Negros)." },
+          "Elfo negro": { opt: "Elfo negro", title: "Linhagem: Elfo negro", note: "Etnia distinta do elfo comum; pele escura e voltados ao ocultismo/trevas (ao contrário dos elfos comuns)." },
+          "Lyazard": { opt: "Lyazard", title: "Linhagem: Lyazard", note: "Estirpe reptiliana de escamas resistentes e presença imponente." },
+          "Enano": { opt: "Anão (Máx. 1,50 m)", title: "Linhagem: Anão (Máx. 1,50 m)", note: "Estatura máxima permitida de 1,50 m. Forjadores incansáveis e resistentes." },
+          "Muerto viviente": { opt: "Morto-vivo", title: "Linhagem: Morto-vivo", note: "Se morrer, é o único que não precisa criar um personagem novo; pode ser revivido por um necromante a partir de qualquer parte do seu cadáver (se o corpo for queimado, morre definitivamente)." },
+          "Orco": { opt: "Orc", title: "Linhagem: Orc", note: "Raça realmente agressiva e inteligente (não o estereótipo de orcs burros)." }
+        },
+        classes: {
+          "Caballero": { opt: "Cavaleiro", title: "Classe: Cavaleiro", note: "Combatente blindado de vanguarda. Sem uso nativo de mana." },
+          "Mercenario": { opt: "Mercenário", title: "Classe: Mercenário", note: "Guerreiro pragmático especialista em armas e sobrevivência. Sem uso nativo de mana." },
+          "Pícaro": { opt: "Ladino", title: "Classe: Ladino", note: "Especialista em furtividade, armadilhas e ataques oportunistas. Sem uso nativo de mana." },
+          "Asesino": { opt: "Assassino", title: "Classe: Assassino", note: "Letal nas sombras, conhecedor de venenos e pontos vitais. Sem uso nativo de mana." },
+          "Arquero": { opt: "Arqueiro", title: "Classe: Arqueiro", note: "Atirador de precisão e rastreador à distância. Sem uso nativo de mana." },
+          "Bardo": { opt: "Bardo (Pentagrama desbloqueável)", title: "Classe: Bardo", note: "Começa lutando de forma física/básica (com golpes e facadas), mas ao atingir certo Ranque obtém um Pentagrama que lhe permite usar mana, tocando melodias para derrotar inimigos por acúmulo de debuffs e santificação (conforme o tipo de monstro)." },
+          "Mago": { opt: "Mago *", title: "Classe: Mago *", note: "Erudito das artes arcanas e feitiços elementais/ocultos. Com uso nativo de mana (*)." },
+          "Monje": { opt: "Monge *", title: "Classe: Monge *", note: "Disciplina marcial e canalização espiritual de energia interior. Com uso nativo de mana (*)." },
+          "Jerarca": { opt: "Hierarca *", title: "Classe: Hierarca *", note: "Autoridade sagrada capaz de invocar preces, cura e santificação. Com uso nativo de mana (*)." },
+          "Nigromante": { opt: "Necromante *", title: "Classe: Necromante *", note: "Manipulador da morte, cadáveres e magia negra (pode reviver Mortos-Vivos). Com uso nativo de mana (*)." }
+        },
+        attributes: {
+          fuerza: { name: "Força", short: "FOR" },
+          agilidad: { name: "Agilidade", short: "AGI" },
+          vitalidad: { name: "Vitalidade", short: "VIT" },
+          percepcion: { name: "Percepção", short: "PER" },
+          carisma: { name: "Carisma", short: "CAR" },
+          suerte: { name: "Sorte", short: "SOR" },
+          espiritu: { name: "Espírito", short: "ESP" }
+        },
+        skills: {
+          atletismo: { name: "Atletismo", desc: "Escalar, saltar, nadar, lutar corpo a corpo ou arrombar portas pesadas." },
+          intimidacion: { name: "Intimidação Física", desc: "Coagir ou assustar usando o porte, o peso ou a força bruta." },
+          carga: { name: "Carga e Resistência", desc: "Suportar marchas forçadas ou levantar objetos extremos sem se fatigar." },
+          sigilo: { name: "Furtividade", desc: "Mover-se sem fazer barulho e esconder-se nas sombras." },
+          acrobacias: { name: "Acrobacias", desc: "Manter o equilíbrio, cair sem se machucar ou desviar de obstáculos." },
+          juego_manos: { name: "Prestidigitação", desc: "Bater carteiras, ocultar armas pequenas e abrir fechaduras/armadilhas." },
+          tolerancia: { name: "Tolerância", desc: "Resistir a venenos, doenças, álcool, frio extremo ou tortura." },
+          aguante_combate: { name: "Resistência em Combate", desc: "Manter-se consciente ou continuar lutando após receber ferimentos graves." },
+          alerta: { name: "Alerta / Vigiar", desc: "Detectar emboscadas, ruídos distantes ou movimentos ocultos." },
+          rastreo: { name: "Rastreamento", desc: "Seguir pegadas, identificar rastros de monstros e orientar-se na natureza." },
+          investigar: { name: "Investigar", desc: "Procurar passagens secretas, pistas em uma cena ou pontos fracos em armaduras." },
+          persuasion: { name: "Persuasão", desc: "Convencer, negociar preços ou inspirar confiança com diplomacia." },
+          engano: { name: "Enganação", desc: "Mentir com convicção, disfarçar-se ou fingir intenções." },
+          interpretacion: { name: "Atuação / Música", desc: "Tocar instrumentos, cantar, recitar ou distrair multidões (vital para o Bardo)." },
+          trato_animal: { name: "Lidar com Animais", desc: "Acalmar feras, montar a cavalo ou treinar animais." },
+          arcano: { name: "Conhecimento Arcano / Ocultismo", desc: "Identificar feitiços, runas, maldições e magia sombria (chave para Magos e Elfos Negros)." },
+          religion: { name: "Religião e Santificação", desc: "Conhecer cultos, divindades, rituais sagrados e fraquezas de mortos-vivos ou demônios (ideal para Hierarcas e Bardos com Pentagrama)." },
+          necrologia: { name: "Necrologia / Anatomia", desc: "Conhecer partes do corpo, conservar cadáveres, identificar venenos ou entender a não-morte (essencial para Necromantes, Assassinos e Mortos-Vivos)." },
+          medicina: { name: "Medicina / Primeiros Socorros", desc: "Estabilizar feridos, suturar cortes e tratar infecções sem usar magia." }
+        },
+        toasts: {
+          bardUnlocked: "Pentagrama desbloqueado: O Bardo agora pode canalizar mana e melodias.",
+          manaOn: "Uso de Mana ATIVADO para este personagem.",
+          manaOff: "Uso de Mana DESATIVADO (Não se aplica / Sem acesso à mana).",
+          invalidImage: "Por favor, selecione um arquivo de imagem válido.",
+          portraitLoaded: "Retrato carregado. Arraste, dê zoom ou gire a foto para enquadrá-la.",
+          allTeiRolled: "Os 7 atributos TEI foram gerados respeitando os limites de 10 e 9.",
+          savedLocal: "Ficha salva no navegador.",
+          saveError: "Não foi possível salvar localmente (imagem muito pesada).",
+          exportWarn: "Aviso: O JSON será exportado, mas a ficha possui alertas de regras ativos.",
+          exportOk: "Arquivo JSON baixado.",
+          importOk: "Ficha importada do JSON com sucesso.",
+          importErr: "O arquivo selecionado não é um JSON válido.",
+          printWarn: "Atenção: Revise os alertas em vermelho antes de imprimir sua ficha oficial.",
+          resetOk: "A ficha foi reiniciada em branco."
+        },
+        rolls: {
+          attrLabel: "Atributo",
+          allTeiTitle: "Geração Completa TEI",
+          allTeiHistory: "Rolagem Completa TEI",
+          allTeiCount: "7 Atributos",
+          freeRollTitle: "Rolagem Livre (1d20)",
+          freeRollHistory: "Rolagem Livre 1d20",
+          critSuccess: "Sucesso Crítico Natural!",
+          critFail: "Falha Crítica Natural!",
+          pureDie: "Dado principal d20",
+          pureDieShort: "Dado puro",
+          luckTitle: "Teste de Sorte",
+          luckAttr: "Sorte",
+          attrShort: "Atrib",
+          skillShort: "Perícia"
+        }
+      },
+      en: {
+        headerSub: "Official Character Sheet Builder & TEI System (d20)",
+        btnSave: "Save",
+        btnExport: "Export",
+        btnImport: "Import",
+        btnPrint: "Print / PDF",
+        btnReset: "Reset",
+        guildRegister: "Guild Registry",
+        sheetTitle: "CHARACTER SHEET",
+        sec1Title: "1. Identity, Lineage & Vocation",
+        portraitTitle: "Character Portrait",
+        portraitDropHint: "Click or drag an image here",
+        portraitDragHint: "Drag to frame",
+        portraitChange: "Change",
+        portraitUrlPlaceholder: "Or paste image URL...",
+        zoomLabel: "Zoom:",
+        rotateLabel: "Rotation:",
+        dragPhotoSub: "Drag photo to pan",
+        resetFrameBtn: "Reset",
+        lblName: "Character Name *",
+        phName: "e.g. Aldric Valenwood",
+        lblRank: "GM Assigned Rank",
+        phRank: "e.g. Initiate / Iron Rank",
+        lblAge: "Age",
+        phAge: "28 years",
+        lblProfession: "Original Profession",
+        phProfession: "e.g. Blacksmith, Gravedigger...",
+        lblHeight: "Height (m)",
+        lblWeight: "Weight (kg)",
+        dwarfWarning: "<strong>Race Rule (Dwarf):</strong> Maximum allowed height is <strong>1.50 m</strong>. Adjust height to comply with the rule.",
+        lblRace: "Race (7 Playable)",
+        lblClass: "Class (10 Playable)",
+        optgrpNoMana: "No native mana usage",
+        optgrpSpecialMana: "Special Class (Mana by Rank)",
+        optgrpNativeMana: "Native mana usage (*)",
+        lblMana: "Mana Level",
+        phMana: "e.g. 100 / Lvl 1",
+        manaNoApply: "N/A / No mana access",
+        manaToggleOn: "With Mana",
+        manaToggleOff: "No Mana",
+        manaBadgeNative: "Native Mana Usage *",
+        manaBadgeBard: "Mana (Pentagram)",
+        manaBadgeHistory: "Mana Enabled (Story)",
+        manaBadgeNoBard: "No Pentagram yet",
+        manaBadgeNone: "No Mana",
+        bardPentagramLabel: "Pentagram Obtained (Enable Mana)",
+        lblLore: "Personal Lore, Background & Scars",
+        lblLoreSub: "History, motivations, oaths or pacts",
+        phLore: "Write your character's story here, their origins, why they left their original profession, their scars, or what they seek in this dark world...",
+        sec2Title: "2. Individual Statistical Table (TEI)",
+        btnRollAll: "Roll All 7 Attributes (d20)",
+        teiConvTitle: "d20 to TEI Conversion (1 to 10 Scale — Divided by 2):",
+        teiFormula: "Formula: ⌈d20 ÷ 2⌉",
+        teiLimitRule: "<span class=\"font-bold\">Maximum Limit Rule:</span> <span>Forbidden to have more than <strong>1 stat at 10</strong> and more than <strong>2 stats at 9</strong>.</span>",
+        in10Label: "At 10:",
+        in9Label: "At 9:",
+        manualVal: "Manual value",
+        sec3Title: "3. Skills by Attribute (TEI)",
+        skillsClickHint: "Click each skill's circle to cycle: [ ] → [X] → [XX]",
+        quickRuleTitle: "Quick Sheet Rule (19 Total Skills):",
+        ruleUnmarked: "Unmarked [ ]",
+        ruleUnmarkedFormula: "1d20 + Attribute",
+        ruleMarked: "Marked [X] <span class=\"font-normal text-[11px]\">(Class/Prof.)</span>",
+        ruleMarkedFormula: "1d20 + Attribute + 3",
+        ruleMastery: "Mastery [XX] <span class=\"font-normal text-[11px]\">(Rank Up)</span>",
+        ruleMasteryFormula: "1d20 + Attribute + 5",
+        footerLeft: "Medieval RPG System • Individual Statistical Table (TEI) & d20",
+        footerRight: "Note: The Luck attribute has no associated skills (used for pure fortune checks).",
+        diceTowerTitle: "Dice Tower (d20)",
+        mainDieBadge: "Primary Die",
+        diceReady: "Ready to roll the d20",
+        diceReadySub: "Click any die on attributes or skills",
+        btnRoll1d20: "Roll 1d20",
+        btnLuckCheck: "Luck Check",
+        rollHistoryTitle: "Roll Chronicle",
+        btnClearHistory: "Clear",
+        noRollsYet: "No rolls made in this session yet.",
+        sheetStatusTitle: "Sheet Status",
+        statusIdentity: "Identity:",
+        statusNoName: "Unnamed",
+        statusHeightRule: "Height Rule",
+        statusValid: "Valid",
+        statusExceedsHeight: "Exceeds 1.50 m",
+        statusTeiLimits: "TEI Limits (10/9):",
+        statusMeetsRule: "Compliant",
+        statusExcessDetected: "Limit exceeded",
+        statusSkills: "Skills:",
+        resetModalTitle: "Reset Character Sheet?",
+        resetModalBody: "All current data, portrait, TEI stats, and marked skills will be erased. If you wish to keep this character, export a <strong>JSON</strong> file first.",
+        btnCancel: "Cancel",
+        btnConfirmReset: "Yes, reset sheet",
+        races: {
+          "Humano": { opt: "Human", title: "Lineage: Human", note: "Versatile and ambitious; no particular physical or arcane restrictions." },
+          "Elfo": { opt: "Elf", title: "Lineage: Elf", note: "Ancient folk attuned to nature and old arts (in contrast to Dark Elves)." },
+          "Elfo negro": { opt: "Dark Elf", title: "Lineage: Dark Elf", note: "Distinct ethnicity from common elves; dark-skinned and oriented toward dark arts/occultism (unlike common elves)." },
+          "Lyazard": { opt: "Lyazard", title: "Lineage: Lyazard", note: "Reptilian lineage with tough scales and an imposing presence." },
+          "Enano": { opt: "Dwarf (Max. 1.50 m)", title: "Lineage: Dwarf (Max. 1.50 m)", note: "Maximum allowed height of 1.50 m. Tireless and resilient smiths." },
+          "Muerto viviente": { opt: "Undead", title: "Lineage: Undead", note: "Upon death, the only race that does not need a new character; can be revived by a necromancer from any part of their corpse (if burned, dies permanently)." },
+          "Orco": { opt: "Orc", title: "Lineage: Orc", note: "Truly aggressive and intelligent race (not the dumb orc stereotype)." }
+        },
+        classes: {
+          "Caballero": { opt: "Knight", title: "Class: Knight", note: "Armored frontline combatant. No native mana usage." },
+          "Mercenario": { opt: "Mercenary", title: "Class: Mercenary", note: "Pragmatic warrior skilled in weapons and survival. No native mana usage." },
+          "Pícaro": { opt: "Rogue", title: "Class: Rogue", note: "Specialist in stealth, traps, and opportunistic strikes. No native mana usage." },
+          "Asesino": { opt: "Assassin", title: "Class: Assassin", note: "Lethal in the shadows, knowledgeable in poisons and vital spots. No native mana usage." },
+          "Arquero": { opt: "Archer", title: "Class: Archer", note: "Precision marksman and ranged tracker. No native mana usage." },
+          "Bardo": { opt: "Bard (Unlockable Pentagram)", title: "Class: Bard", note: "Starts fighting physically/basically (strikes and daggers), but upon reaching a certain Rank obtains a Pentagram enabling mana use, playing tunes to defeat foes via debuff stacking and sanctification (depending on monster type)." },
+          "Mago": { opt: "Mage *", title: "Class: Mage *", note: "Scholar of arcane arts and elemental/occult spells. Native mana usage (*)." },
+          "Monje": { opt: "Monk *", title: "Class: Monk *", note: "Martial discipline and spiritual channeling of inner energy. Native mana usage (*)." },
+          "Jerarca": { opt: "Hierarch *", title: "Class: Hierarch *", note: "Sacred authority capable of invoking prayers, healing, and sanctification. Native mana usage (*)." },
+          "Nigromante": { opt: "Necromancer *", title: "Class: Necromancer *", note: "Manipulator of death, corpses, and dark magic (can revive Undead). Native mana usage (*)." }
+        },
+        attributes: {
+          fuerza: { name: "Strength", short: "STR" },
+          agilidad: { name: "Agility", short: "AGI" },
+          vitalidad: { name: "Vitality", short: "VIT" },
+          percepcion: { name: "Perception", short: "PER" },
+          carisma: { name: "Charisma", short: "CHA" },
+          suerte: { name: "Luck", short: "LCK" },
+          espiritu: { name: "Spirit", short: "SPI" }
+        },
+        skills: {
+          atletismo: { name: "Athletics", desc: "Climb, jump, swim, grapple, or break down heavy doors." },
+          intimidacion: { name: "Physical Intimidation", desc: "Coerce or frighten using stature, weight, or brute force." },
+          carga: { name: "Hauling & Endurance", desc: "Endure forced marches or lift extreme weights without tiring." },
+          sigilo: { name: "Stealth", desc: "Move silently and hide in the shadows." },
+          acrobacias: { name: "Acrobatics", desc: "Keep balance, land safely from falls, or dodge obstacles." },
+          juego_manos: { name: "Sleight of Hand", desc: "Pick pockets, conceal small weapons, and pick locks/traps." },
+          tolerancia: { name: "Tolerance", desc: "Resist poisons, diseases, alcohol, extreme cold, or torture." },
+          aguante_combate: { name: "Combat Stamina", desc: "Stay conscious or keep fighting after taking severe wounds." },
+          alerta: { name: "Alertness / Watch", desc: "Detect ambushes, distant noises, or hidden movements." },
+          rastreo: { name: "Tracking", desc: "Follow footprints, identify monster tracks, and navigate the wilds." },
+          investigar: { name: "Investigate", desc: "Search for secret passages, scene clues, or weak points in armor." },
+          persuasion: { name: "Persuasion", desc: "Convince, haggle prices, or inspire trust through diplomacy." },
+          engano: { name: "Deception", desc: "Lie convincingly, disguise oneself, or feign intentions." },
+          interpretacion: { name: "Performance", desc: "Play instruments, sing, recite, or distract crowds (vital for Bards)." },
+          trato_animal: { name: "Animal Handling", desc: "Calm beasts, ride mounts, or train animals." },
+          arcano: { name: "Arcane Knowledge / Occultism", desc: "Identify spells, runes, curses, and dark magic (key for Mages and Dark Elves)." },
+          religion: { name: "Religion & Sanctification", desc: "Know cults, deities, sacred rituals, and weaknesses of undead or demons (ideal for Hierarchs and Bards with Pentagram)." },
+          necrologia: { name: "Necrology / Anatomy", desc: "Know body parts, preserve corpses, identify poisons, or understand undeath (essential for Necromancers, Assassins, and Undead)." },
+          medicina: { name: "Medicine / First Aid", desc: "Stabilize the wounded, stitch cuts, and treat infections without magic." }
+        },
+        toasts: {
+          bardUnlocked: "Pentagram unlocked: The Bard can now channel mana and tunes.",
+          manaOn: "Mana usage ENABLED for this character.",
+          manaOff: "Mana usage DISABLED (N/A / No mana access).",
+          invalidImage: "Please select a valid image file.",
+          portraitLoaded: "Portrait loaded. Drag, zoom, or rotate the photo to frame it.",
+          allTeiRolled: "All 7 TEI attributes rolled respecting the limits of 10 and 9.",
+          savedLocal: "Sheet saved in browser.",
+          saveError: "Could not save locally (image file may be too large).",
+          exportWarn: "Notice: JSON will be exported, but the sheet has active rule warnings.",
+          exportOk: "JSON file downloaded.",
+          importOk: "Sheet imported from JSON successfully.",
+          importErr: "The selected file is not a valid JSON.",
+          printWarn: "Warning: Review the red alerts before printing your official sheet.",
+          resetOk: "The sheet has been reset to blank."
+        },
+        rolls: {
+          attrLabel: "Attribute",
+          allTeiTitle: "Full TEI Generation",
+          allTeiHistory: "Full TEI Roll",
+          allTeiCount: "7 Attributes",
+          freeRollTitle: "Free Roll (1d20)",
+          freeRollHistory: "Free Roll 1d20",
+          critSuccess: "Natural Critical Success!",
+          critFail: "Natural Fumble!",
+          pureDie: "Primary d20 die",
+          pureDieShort: "Pure die",
+          luckTitle: "Luck Check",
+          luckAttr: "Luck",
+          attrShort: "Attr",
+          skillShort: "Skill"
+        }
+      }
+    };
+
+    let currentLang = "es";
+    function t(key) {
+      return (I18N[currentLang] && I18N[currentLang][key]) || I18N.es[key] || key;
+    }
+
+    // 1. DEFINICIÓN DE DATOS DEL SISTEMA (RAZAS, CLASES, ATRIBUTOS Y 19 PERICIAS)
+    const RACES_DATA = {
+      "Humano": {
+        title: "Linaje: Humano",
+        note: "Versátiles y ambiciosos; sin restricciones físicas ni arcanas particulares."
+      },
+      "Elfo": {
+        title: "Linaje: Elfo",
+        note: "Pueblo ancestral afinado con la naturaleza y las artes antiguas (en contraste con los Elfos Negros)."
+      },
+      "Elfo negro": {
+        title: "Linaje: Elfo negro",
+        note: "Etnia distinta al elfo común; piel oscura y orientados al oscurismo (al contrario de los elfos comunes)."
+      },
+      "Lyazard": {
+        title: "Linaje: Lyazard",
+        note: "Estirpe reptiliana de escamas resistentes y presencia imponente."
+      },
+      "Enano": {
+        title: "Linaje: Enano (Máx. 1,50 m)",
+        note: "Estatura máxima permitida de 1,50 m. Forjadores incansables y resistentes."
+      },
+      "Muerto viviente": {
+        title: "Linaje: Muerto viviente",
+        note: "Si muere, es el único que no necesita crear un personaje nuevo; puede ser revivido por un nigromante a partir de cualquier parte de su cadáver (si su cuerpo es quemado, muere definitivamente)."
+      },
+      "Orco": {
+        title: "Linaje: Orco",
+        note: "Razas realmente agresivas e inteligentes (no el estereotipo de orcos tontos)."
+      }
+    };
+
+    const CLASSES_DATA = {
+      "Caballero": { nativeMana: false, isBard: false, note: "Combatiente acorazado de vanguardia. Sin uso nativo de maná." },
+      "Mercenario": { nativeMana: false, isBard: false, note: "Guerrero pragmático experto en armas y supervivencia. Sin uso nativo de maná." },
+      "Pícaro": { nativeMana: false, isBard: false, note: "Especialista en sigilo, trampas y ataques oportunistas. Sin uso nativo de maná." },
+      "Asesino": { nativeMana: false, isBard: false, note: "Letal en las sombras, conocedor de venenos y puntos vitales. Sin uso nativo de maná." },
+      "Arquero": { nativeMana: false, isBard: false, note: "Tirador de precisión y rastreador a distancia. Sin uso nativo de maná." },
+      "Bardo": {
+        nativeMana: false,
+        isBard: true,
+        note: "Empieza peleando de forma física/básica (a golpes y navajazos), pero al alcanzar cierto Rango obtiene un Pentagrama que le permite usar maná, tocando tonadas para derrotar enemigos mediante acumulación de debuffs y santificación (según el tipo de monstruo)."
+      },
+      "Mago": { nativeMana: true, isBard: false, note: "Erudito de las artes arcanas y conjuros elementales/ocultos. Con uso nativo de maná (*)." },
+      "Monje": { nativeMana: true, isBard: false, note: "Disciplina marcial y canalización espiritual de energía interior. Con uso nativo de maná (*)." },
+      "Jerarca": { nativeMana: true, isBard: false, note: "Autoridad sagrada capaz de invocar plegarias, sanación y santificación. Con uso nativo de maná (*)." },
+      "Nigromante": { nativeMana: true, isBard: false, note: "Manipulador de la muerte, cadáveres y magia oscura (puede revivir Muertos Vivientes). Con uso nativo de maná (*)." }
+    };
+
+    const ATTRIBUTES_LIST = [
+      { id: "fuerza", name: "Fuerza", short: "FUE", icon: "sword" },
+      { id: "agilidad", name: "Agilidad", short: "AGI", icon: "wind" },
+      { id: "vitalidad", name: "Vitalidad", short: "VIT", icon: "heart-pulse" },
+      { id: "percepcion", name: "Percepción", short: "PER", icon: "eye" },
+      { id: "carisma", name: "Carisma", short: "CAR", icon: "message-circle" },
+      { id: "suerte", name: "Suerte", short: "SUE", icon: "clover" },
+      { id: "espiritu", name: "Espíritu", short: "ESP", icon: "flame" }
+    ];
+
+    // Las 19 Pericias exactas agrupadas por Atributo y organizadas en 2 columnas equilibradas
+    const SKILLS_COLUMNS = [
+      // COLUMNA 1 (Fuerza, Agilidad, Vitalidad -> 8 pericias)
+      [
+        {
+          attrId: "fuerza",
+          attrName: "Fuerza",
+          skills: [
+            { id: "atletismo", name: "Atletismo", desc: "Trepar, saltar, nadar, forcejear o derribar puertas pesadas." },
+            { id: "intimidacion", name: "Intimidación Física", desc: "Coaccionar o asustar usando el porte, el peso o la fuerza bruta." },
+            { id: "carga", name: "Carga y Resistencia", desc: "Aguantar marchas forzadas o levantar objetos extremos sin fatigarse." }
+          ]
+        },
+        {
+          attrId: "agilidad",
+          attrName: "Agilidad",
+          skills: [
+            { id: "sigilo", name: "Sigilo", desc: "Moverse sin hacer ruido y ocultarse en las sombras." },
+            { id: "acrobacias", name: "Acrobacias", desc: "Mantener el equilibrio, caer sin hacerse daño o esquivar obstáculos." },
+            { id: "juego_manos", name: "Juego de Manos", desc: "Robar bolsas, ocultar armas pequeñas y abrir cerraduras/trampas." }
+          ]
+        },
+        {
+          attrId: "vitalidad",
+          attrName: "Vitalidad",
+          skills: [
+            { id: "tolerancia", name: "Tolerancia", desc: "Resistir venenos, enfermedades, alcohol, frío extremo o tortura." },
+            { id: "aguante_combate", name: "Aguante en Combate", desc: "Mantenerse consciente o seguir peleando tras recibir heridas graves." }
+          ]
+        }
+      ],
+      // COLUMNA 2 (Percepción, Carisma, Espíritu -> 11 pericias)
+      [
+        {
+          attrId: "percepcion",
+          attrName: "Percepción",
+          skills: [
+            { id: "alerta", name: "Alerta / Vigilar", desc: "Detectar emboscadas, ruidos lejanos o movimientos ocultos." },
+            { id: "rastreo", name: "Rastreo", desc: "Seguir huellas, identificar rastros de monstruos y orientarse en la naturaleza." },
+            { id: "investigar", name: "Investigar", desc: "Buscar pasadizos secretos, pistas en una escena o puntos débiles en armaduras." }
+          ]
+        },
+        {
+          attrId: "carisma",
+          attrName: "Carisma",
+          skills: [
+            { id: "persuasion", name: "Persuasión", desc: "Convencer, negociar precios o inspirar confianza con diplomacia." },
+            { id: "engano", name: "Engaño", desc: "Mentir con convicción, disfrazarse o fingir intenciones." },
+            { id: "interpretacion", name: "Interpretación", desc: "Tocar instrumentos, cantar, recitar o distraer multitudes (vital para el Bardo)." },
+            { id: "trato_animal", name: "Trato Animal", desc: "Calmar bestias, montar a caballo o entrenar animales." }
+          ]
+        },
+        {
+          attrId: "espiritu",
+          attrName: "Espíritu",
+          skills: [
+            { id: "arcano", name: "Conocimiento Arcano / Ocultismo", desc: "Identificar hechizos, runas, maldiciones y magia oscura (clave para Magos y Elfos Negros)." },
+            { id: "religion", name: "Religión y Santificación", desc: "Conocer cultos, deidades, rituales sagrados y debilidades de muertos vivientes o demonios (ideal para Jerarcas y Bardos con Pentagrama)." },
+            { id: "necrologia", name: "Necrología / Anatomía", desc: "Conocer partes del cuerpo, conservar cadáveres, identificar venenos o entender la no-muerte (esencial para Nigromantes, Asesinos y Muertos Vivientes)." },
+            { id: "medicina", name: "Medicina / Primeros Auxilios", desc: "Estabilizar heridos, coser cortes y tratar infecciones sin usar magia." }
+          ]
+        }
+      ]
+    ];
+
+    // Estado inicial de la ficha
+    function getDefaultState() {
+      return {
+        lang: currentLang || "es",
+        name: "",
+        age: "",
+        profession: "",
+        race: "Humano",
+        height: "",
+        weight: "",
+        charClass: "Caballero",
+        bardPentagram: false,
+        canUseMana: false,
+        manaLevel: "",
+        gmRank: "",
+        lore: "",
+        portrait: "",
+        portraitPanX: 0,
+        portraitPanY: 0,
+        portraitZoom: 100,
+        portraitRotation: 0,
+        attributes: {
+          fuerza: { value: 5, lastD20: null },
+          agilidad: { value: 5, lastD20: null },
+          vitalidad: { value: 5, lastD20: null },
+          percepcion: { value: 5, lastD20: null },
+          carisma: { value: 5, lastD20: null },
+          suerte: { value: 5, lastD20: null },
+          espiritu: { value: 5, lastD20: null }
+        },
+        // Estados de pericias: 0 = [ ] Sin marcar, 1 = [X] Marcada (+3), 2 = [XX] Maestría (+5)
+        skills: {}
+      };
+    }
+
+    let sheetState = getDefaultState();
+    let rollHistory = [];
+    const STORAGE_KEY = "rpg_medieval_tei_sheet_v1";
+
+    // =========================================================================
+    // INICIALIZACIÓN DE LA INTERFAZ
+    // =========================================================================
+    document.addEventListener("DOMContentLoaded", () => {
+      // Cargar guardado automático si existe antes de renderizar
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        try {
+          const parsed = JSON.parse(saved);
+          sheetState = { ...getDefaultState(), ...parsed };
+          if (parsed.lang && I18N[parsed.lang]) {
+            currentLang = parsed.lang;
+          }
+          // Compatibilidad hacia atrás si la ficha anterior no tenía canUseMana explícito
+          if (typeof parsed.canUseMana !== "boolean") {
+            const cInfo = CLASSES_DATA[sheetState.charClass] || CLASSES_DATA["Caballero"];
+            sheetState.canUseMana = Boolean(cInfo.nativeMana || (cInfo.isBard && sheetState.bardPentagram));
+          }
+        } catch (e) {
+          console.error("Error leyendo ficha guardada:", e);
+        }
+      }
+
+      document.getElementById("language-select").value = currentLang;
+      renderAttributesUI();
+      renderSkillsUI();
+      setupPortraitDragAndDrop();
+      setupPortraitPanInteractions();
+      applyLanguageTexts();
+      applyStateToDOM();
+      lucide.createIcons();
+    });
+
+    function setLanguage(lang) {
+      if (!I18N[lang]) return;
+      currentLang = lang;
+      sheetState.lang = lang;
+      document.documentElement.lang = lang;
+      document.getElementById("language-select").value = lang;
+
+      renderAttributesUI();
+      renderSkillsUI();
+      applyLanguageTexts();
+      applyStateToDOM();
+      saveToLocalStorage(false);
+      lucide.createIcons();
+    }
+
+    function applyLanguageTexts() {
+      const dict = I18N[currentLang];
+
+      // Subtítulo del header
+      const headerSubEl = document.querySelector("header p");
+      if (headerSubEl) headerSubEl.textContent = dict.headerSub;
+
+      // Textos planos con data-i18n
+      document.querySelectorAll("[data-i18n]").forEach(el => {
+        const key = el.getAttribute("data-i18n");
+        if (dict[key]) el.textContent = dict[key];
+      });
+
+      // Textos con HTML interno data-i18n-html
+      document.querySelectorAll("[data-i18n-html]").forEach(el => {
+        const key = el.getAttribute("data-i18n-html");
+        if (dict[key]) el.innerHTML = dict[key];
+      });
+
+      // Placeholders
+      document.getElementById("portrait-url-input").placeholder = dict.portraitUrlPlaceholder;
+      document.getElementById("char-name").placeholder = dict.phName;
+      document.getElementById("char-rank").placeholder = dict.phRank;
+      document.getElementById("char-age").placeholder = dict.phAge;
+      document.getElementById("char-profession").placeholder = dict.phProfession;
+      document.getElementById("char-mana").placeholder = dict.phMana;
+      document.getElementById("char-lore").placeholder = dict.phLore;
+
+      // Opciones del selector de Raza (conservando el value interno en español para compatibilidad JSON)
+      const raceSelect = document.getElementById("char-race");
+      Array.from(raceSelect.options).forEach(opt => {
+        if (dict.races[opt.value]) opt.textContent = dict.races[opt.value].opt;
+      });
+
+      // Optgroups y opciones del selector de Clase
+      document.getElementById("optgrp-no-mana").label = dict.optgrpNoMana;
+      document.getElementById("optgrp-special-mana").label = dict.optgrpSpecialMana;
+      document.getElementById("optgrp-native-mana").label = dict.optgrpNativeMana;
+      const classSelect = document.getElementById("char-class");
+      Array.from(classSelect.options).forEach(opt => {
+        if (dict.classes[opt.value]) opt.textContent = dict.classes[opt.value].opt;
+      });
+    }
+
+    // =========================================================================
+    // RENDERIZADO DE LOS 7 ATRIBUTOS (TEI)
+    // =========================================================================
+    function renderAttributesUI() {
+      const container = document.getElementById("attributes-container");
+      const dictAttrs = I18N[currentLang].attributes;
+      container.innerHTML = ATTRIBUTES_LIST.map(attr => {
+        const localized = dictAttrs[attr.id] || { name: attr.name, short: attr.short };
+        return `
+        <div id="attr-card-${attr.id}" class="rounded-xl border-2 border-parchment-border bg-parchment-light/90 p-2.5 flex flex-col items-center text-center shadow-sm transition-all">
+          <div class="flex items-center justify-between w-full mb-1">
+            <span class="font-sans text-[10px] font-bold uppercase tracking-wider text-ink-muted">${localized.short}</span>
+            <button type="button" onclick="rollSingleAttribute('${attr.id}')" title="1d20 (${localized.name})"
+                    class="no-print w-6 h-6 rounded-md bg-leather text-gold-light hover:bg-crimson flex items-center justify-center transition shadow-sm">
+              <i data-lucide="dices" class="w-3.5 h-3.5"></i>
+            </button>
+          </div>
+
+          <label for="attr-input-${attr.id}" class="font-serif text-xs sm:text-sm font-bold text-ink mb-1.5">
+            ${localized.name}
+          </label>
+
+          <input type="number" id="attr-input-${attr.id}" min="1" max="10" value="5"
+                 class="ink-input w-16 h-12 rounded-xl text-center font-display text-2xl font-black text-crimson border-2 border-gold-dark focus:border-crimson"
+                 onchange="handleAttributeManualChange('${attr.id}', this.value)"
+                 oninput="handleAttributeManualChange('${attr.id}', this.value)">
+
+          <div id="attr-d20-badge-${attr.id}" class="mt-1.5 text-[11px] font-sans text-ink-muted min-h-[16px]">
+            ${t("manualVal")}
+          </div>
+        </div>
+      `;
+      }).join("");
+    }
+
+    // =========================================================================
+    // RENDERIZADO DE LAS 19 PERICIAS EN 2 COLUMNAS
+    // =========================================================================
+    function renderSkillsUI() {
+      const grid = document.getElementById("skills-grid");
+      const dictAttrs = I18N[currentLang].attributes;
+      const dictSkills = I18N[currentLang].skills;
+      grid.innerHTML = SKILLS_COLUMNS.map((colGroups, colIndex) => `
+        <div class="space-y-4">
+          ${colGroups.map(group => {
+            const attrTitle = (dictAttrs[group.attrId] && dictAttrs[group.attrId].name) || group.attrName;
+            return `
+            <div class="skill-group-card rounded-xl border border-parchment-border bg-parchment-light/70 p-3 shadow-sm">
+              <div class="flex items-center justify-between border-b border-parchment-border/80 pb-1.5 mb-2">
+                <h4 class="font-serif text-sm font-bold uppercase tracking-wider text-crimson flex items-center gap-1.5">
+                  <span>${attrTitle}</span>
+                </h4>
+                <span class="font-sans text-xs font-semibold text-ink-muted bg-parchment-dark px-2 py-0.5 rounded">
+                  Base: <strong id="skill-group-base-${group.attrId}" class="text-ink">+5</strong>
+                </span>
+              </div>
+
+              <div class="space-y-2">
+                ${group.skills.map(skill => {
+                  const sLoc = dictSkills[skill.id] || { name: skill.name, desc: skill.desc };
+                  return `
+                  <div class="rounded-lg bg-white/55 hover:bg-white/90 border border-parchment-border/60 p-2 transition flex items-start justify-between gap-2">
+                    <div class="flex items-start gap-2.5 min-w-0">
+                      <!-- Circulito interactivo [ ] / [X] / [XX] -->
+                      <button type="button" id="skill-circle-${skill.id}" 
+                              onclick="cycleSkillRank('${skill.id}')"
+                              title="[ ] -> [X] (+3) -> [XX] (+5)"
+                              class="mt-0.5 w-7 h-7 rounded-full border-2 border-ink bg-white flex items-center justify-center font-sans font-extrabold text-xs shrink-0 transition shadow-sm cursor-pointer select-none">
+                      </button>
+
+                      <div class="min-w-0">
+                        <div class="flex flex-wrap items-center gap-1.5">
+                          <span class="font-serif text-sm font-bold text-ink leading-tight">${sLoc.name}</span>
+                          <span id="skill-rank-tag-${skill.id}" class="font-sans text-[10px] px-1.5 py-0.2 rounded bg-stone-200 text-stone-700 font-semibold">
+                            [ ] +0
+                          </span>
+                        </div>
+                        <p class="text-xs text-ink-muted leading-snug mt-0.5">
+                          ${sLoc.desc}
+                        </p>
+                      </div>
+                    </div>
+
+                    <!-- Modificador Total + Botón Tirar 1d20 -->
+                    <div class="flex flex-col items-end shrink-0 gap-1">
+                      <span id="skill-total-mod-${skill.id}" class="font-mono text-xs font-bold px-2 py-0.5 rounded bg-parchment-dark border border-parchment-border text-ink">
+                        +5
+                      </span>
+                      <button type="button" onclick="rollSkillCheck('${group.attrId}', '${skill.id}', '${sLoc.name.replace(/'/g, "\\'")}')"
+                              title="1d20 — ${sLoc.name}"
+                              class="no-print px-2 py-1 rounded bg-leather hover:bg-crimson text-gold-light font-sans text-[11px] font-medium flex items-center gap-1 transition shadow-sm">
+                        <i data-lucide="dices" class="w-3 h-3"></i>
+                        <span>1d20</span>
+                      </button>
+                    </div>
+                  </div>
+                `;
+                }).join("")}
+              </div>
+            </div>
+          `;
+          }).join("")}
+        </div>
+      `).join("");
+    }
+
+    // =========================================================================
+    // SINCRONIZACIÓN DE ESTADO Y VALIDACIONES DE REGLAS
+    // =========================================================================
+    function applyStateToDOM() {
+      document.getElementById("char-name").value = sheetState.name || "";
+      document.getElementById("char-age").value = sheetState.age || "";
+      document.getElementById("char-profession").value = sheetState.profession || "";
+      document.getElementById("char-race").value = sheetState.race || "Humano";
+      document.getElementById("char-height").value = sheetState.height || "";
+      document.getElementById("char-weight").value = sheetState.weight || "";
+      document.getElementById("char-class").value = sheetState.charClass || "Caballero";
+      document.getElementById("bard-pentagram-checkbox").checked = !!sheetState.bardPentagram;
+      document.getElementById("char-rank").value = sheetState.gmRank || "";
+      document.getElementById("char-lore").value = sheetState.lore || "";
+
+      // Retrato y encuadre (Pan X, Pan Y, Zoom, Rotación)
+      if (sheetState.portrait) {
+        showPortraitImage(sheetState.portrait);
+      } else {
+        clearPortrait(false);
+      }
+      sheetState.portraitPanX = Number.isFinite(sheetState.portraitPanX) ? sheetState.portraitPanX : 0;
+      sheetState.portraitPanY = Number.isFinite(sheetState.portraitPanY) ? sheetState.portraitPanY : 0;
+      sheetState.portraitZoom = Number.isFinite(sheetState.portraitZoom) ? sheetState.portraitZoom : 100;
+      sheetState.portraitRotation = Number.isFinite(sheetState.portraitRotation) ? sheetState.portraitRotation : 0;
+      applyPortraitTransform(false);
+
+      // Atributos
+      ATTRIBUTES_LIST.forEach(attr => {
+        const attrData = sheetState.attributes[attr.id] || { value: 5, lastD20: null };
+        document.getElementById(`attr-input-${attr.id}`).value = attrData.value;
+        const badge = document.getElementById(`attr-d20-badge-${attr.id}`);
+        if (attrData.lastD20 !== null) {
+          badge.innerHTML = `d20: <strong class="text-crimson">${attrData.lastD20}</strong> &rarr; <strong>${attrData.value}</strong>`;
+        } else {
+          badge.textContent = t("manualVal");
+        }
+      });
+
+      handleRaceChange(false);
+      // Sincronizar UI de clase sin pisar el estado guardado de canUseMana
+      const charClass = document.getElementById("char-class").value;
+      const classInfo = CLASSES_DATA[charClass] || CLASSES_DATA["Caballero"];
+      const classLoc = (I18N[currentLang].classes && I18N[currentLang].classes[charClass]) || classInfo;
+      document.getElementById("class-note-title").textContent = classLoc.title;
+      document.getElementById("class-note-text").textContent = classLoc.note;
+      if (classInfo.isBard) {
+        document.getElementById("bard-pentagram-control").classList.remove("hidden");
+      } else {
+        document.getElementById("bard-pentagram-control").classList.add("hidden");
+      }
+
+      updateManaFieldAvailability();
+      validateHeightAndRace();
+      validateTEILimits();
+      refreshAllSkillsUI();
+      updateValidationSummarySidebar();
+    }
+
+    function updateSheetState() {
+      sheetState.name = document.getElementById("char-name").value;
+      sheetState.age = document.getElementById("char-age").value;
+      sheetState.profession = document.getElementById("char-profession").value;
+      sheetState.race = document.getElementById("char-race").value;
+      sheetState.height = document.getElementById("char-height").value;
+      sheetState.weight = document.getElementById("char-weight").value;
+      sheetState.charClass = document.getElementById("char-class").value;
+      sheetState.bardPentagram = document.getElementById("bard-pentagram-checkbox").checked;
+      if (sheetState.canUseMana) {
+        sheetState.manaLevel = document.getElementById("char-mana").value;
+      }
+      sheetState.gmRank = document.getElementById("char-rank").value;
+      sheetState.lore = document.getElementById("char-lore").value;
+
+      saveToLocalStorage(false);
+      updateValidationSummarySidebar();
+    }
+
+    // Cambio de Raza y Validación de Estatura Máxima del Enano (1,50 m)
+    function handleRaceChange(triggerSave = true) {
+      const race = document.getElementById("char-race").value;
+      const raceInfo = (I18N[currentLang].races && I18N[currentLang].races[race]) || RACES_DATA[race] || RACES_DATA["Humano"];
+      document.getElementById("race-note-title").textContent = raceInfo.title;
+      document.getElementById("race-note-text").textContent = raceInfo.note;
+      validateHeightAndRace();
+      if (triggerSave) updateSheetState();
+    }
+
+    function validateHeightAndRace() {
+      const race = document.getElementById("char-race").value;
+      const heightVal = parseFloat(document.getElementById("char-height").value);
+      const warningBox = document.getElementById("dwarf-height-warning");
+      const heightInput = document.getElementById("char-height");
+
+      const isInvalidDwarf = race === "Enano" && !isNaN(heightVal) && heightVal > 1.50;
+      if (isInvalidDwarf) {
+        warningBox.classList.remove("hidden");
+        heightInput.classList.add("border-red-600", "bg-red-50", "text-red-900");
+        return false;
+      } else {
+        warningBox.classList.add("hidden");
+        heightInput.classList.remove("border-red-600", "bg-red-50", "text-red-900");
+        return true;
+      }
+    }
+
+    // Cambio de Clase, Pentagrama del Bardo y Botón Interruptor de Uso de Maná
+    function handleClassChange(triggerSave = true) {
+      const charClass = document.getElementById("char-class").value;
+      const classInfo = CLASSES_DATA[charClass] || CLASSES_DATA["Caballero"];
+      const classLoc = (I18N[currentLang].classes && I18N[currentLang].classes[charClass]) || classInfo;
+      const bardControl = document.getElementById("bard-pentagram-control");
+
+      document.getElementById("class-note-title").textContent = classLoc.title;
+      document.getElementById("class-note-text").textContent = classLoc.note;
+
+      if (classInfo.isBard) {
+        bardControl.classList.remove("hidden");
+      } else {
+        bardControl.classList.add("hidden");
+      }
+
+      // Sugerencia automática según la clase elegida (sigue siendo editable con el botón interruptor)
+      const bardUnlocked = classInfo.isBard && document.getElementById("bard-pentagram-checkbox").checked;
+      sheetState.canUseMana = Boolean(classInfo.nativeMana || bardUnlocked);
+
+      updateManaFieldAvailability();
+      if (triggerSave) updateSheetState();
+    }
+
+    function handleBardPentagramToggle() {
+      const hasPentagram = document.getElementById("bard-pentagram-checkbox").checked;
+      sheetState.bardPentagram = hasPentagram;
+      sheetState.canUseMana = hasPentagram;
+      updateManaFieldAvailability();
+      if (hasPentagram) {
+        showToast(I18N[currentLang].toasts.bardUnlocked, "gold");
+      }
+    }
+
+    // Interruptor manual para activar/desactivar el uso de maná por historia o evolución
+    function toggleManualMana() {
+      sheetState.canUseMana = !sheetState.canUseMana;
+      updateManaFieldAvailability();
+      updateSheetState();
+
+      if (sheetState.canUseMana) {
+        const manaInput = document.getElementById("char-mana");
+        manaInput.focus();
+        showToast(I18N[currentLang].toasts.manaOn, "gold");
+      } else {
+        showToast(I18N[currentLang].toasts.manaOff, "gold");
+      }
+    }
+
+    function updateManaFieldAvailability() {
+      const charClass = document.getElementById("char-class").value;
+      const classInfo = CLASSES_DATA[charClass] || CLASSES_DATA["Caballero"];
+      const manaInput = document.getElementById("char-mana");
+      const manaBadge = document.getElementById("mana-badge");
+      const toggleBtn = document.getElementById("mana-toggle-btn");
+      const toggleDot = document.getElementById("mana-toggle-dot");
+      const toggleText = document.getElementById("mana-toggle-text");
+      const bardUnlocked = classInfo.isBard && document.getElementById("bard-pentagram-checkbox").checked;
+      const noApplyStrings = [
+        "No aplica",
+        I18N.es.manaNoApply,
+        I18N.pt.manaNoApply,
+        I18N.en.manaNoApply
+      ];
+
+      const canUseMana = Boolean(sheetState.canUseMana);
+
+      if (canUseMana) {
+        manaInput.disabled = false;
+        manaInput.classList.add("border-blue-700", "bg-blue-50/75", "text-blue-950", "ring-1", "ring-blue-500/40");
+        if (!manaInput.value || noApplyStrings.includes(manaInput.value)) {
+          manaInput.value = (sheetState.manaLevel && !noApplyStrings.includes(sheetState.manaLevel))
+            ? sheetState.manaLevel
+            : "";
+        }
+
+        // Estilo del botón interruptor activo
+        toggleBtn.className = "no-print px-2 py-0.5 rounded-full text-[10px] font-sans font-bold border border-blue-400 bg-blue-900 text-blue-100 hover:bg-blue-800 transition flex items-center gap-1 shadow-sm cursor-pointer";
+        toggleDot.className = "w-2 h-2 rounded-full bg-cyan-300 animate-pulse";
+        toggleText.textContent = t("manaToggleOn");
+
+        // Etiqueta en el recuadro de clase
+        if (classInfo.nativeMana) {
+          manaBadge.textContent = t("manaBadgeNative");
+        } else if (bardUnlocked) {
+          manaBadge.textContent = t("manaBadgeBard");
+        } else {
+          manaBadge.textContent = t("manaBadgeHistory");
+        }
+        manaBadge.className = "px-1.5 py-0.5 rounded text-[10px] font-sans bg-blue-900 text-blue-100 border border-blue-400";
+      } else {
+        manaInput.disabled = true;
+        manaInput.classList.remove("border-blue-700", "bg-blue-50/75", "text-blue-950", "ring-1", "ring-blue-500/40");
+        manaInput.value = t("manaNoApply");
+
+        // Estilo del botón interruptor inactivo
+        toggleBtn.className = "no-print px-2 py-0.5 rounded-full text-[10px] font-sans font-bold border border-stone-500 bg-stone-800 text-stone-300 hover:bg-stone-700 transition flex items-center gap-1 shadow-sm cursor-pointer";
+        toggleDot.className = "w-2 h-2 rounded-full bg-stone-400";
+        toggleText.textContent = t("manaToggleOff");
+
+        manaBadge.textContent = classInfo.isBard ? t("manaBadgeNoBard") : t("manaBadgeNone");
+        manaBadge.className = "px-1.5 py-0.5 rounded text-[10px] font-sans bg-stone-700 text-stone-200";
+      }
+    }
+
+    // =========================================================================
+    // GESTIÓN DEL RETRATO DEL PERSONAJE Y ENMARCADO INTERACTIVO (PAN/ZOOM/ROTATE)
+    // =========================================================================
+    let isDraggingPortrait = false;
+    let dragStartX = 0;
+    let dragStartY = 0;
+    let initialPanX = 0;
+    let initialPanY = 0;
+
+    function handlePortraitBoxClick(event) {
+      // Solo abrir selector de archivos si aún no hay retrato cargado
+      if (!sheetState.portrait) {
+        document.getElementById("portrait-file-input").click();
+      }
+    }
+
+    function setupPortraitPanInteractions() {
+      const dropzone = document.getElementById("portrait-dropzone");
+
+      // Ratón (Mouse)
+      dropzone.addEventListener("mousedown", e => {
+        if (!sheetState.portrait || e.button !== 0) return;
+        isDraggingPortrait = true;
+        dragStartX = e.clientX;
+        dragStartY = e.clientY;
+        initialPanX = sheetState.portraitPanX || 0;
+        initialPanY = sheetState.portraitPanY || 0;
+        dropzone.classList.add("cursor-grabbing");
+        dropzone.classList.remove("cursor-grab");
+      });
+
+      window.addEventListener("mousemove", e => {
+        if (!isDraggingPortrait) return;
+        const dx = e.clientX - dragStartX;
+        const dy = e.clientY - dragStartY;
+        sheetState.portraitPanX = Math.round(initialPanX + dx);
+        sheetState.portraitPanY = Math.round(initialPanY + dy);
+        applyPortraitTransform(false);
+      });
+
+      window.addEventListener("mouseup", () => {
+        if (!isDraggingPortrait) return;
+        isDraggingPortrait = false;
+        dropzone.classList.remove("cursor-grabbing");
+        if (sheetState.portrait) dropzone.classList.add("cursor-grab");
+        updateSheetState();
+      });
+
+      // Pantalla Táctil (Touch)
+      dropzone.addEventListener("touchstart", e => {
+        if (!sheetState.portrait || e.touches.length !== 1) return;
+        isDraggingPortrait = true;
+        dragStartX = e.touches[0].clientX;
+        dragStartY = e.touches[0].clientY;
+        initialPanX = sheetState.portraitPanX || 0;
+        initialPanY = sheetState.portraitPanY || 0;
+      }, { passive: true });
+
+      dropzone.addEventListener("touchmove", e => {
+        if (!isDraggingPortrait || e.touches.length !== 1) return;
+        e.preventDefault();
+        const dx = e.touches[0].clientX - dragStartX;
+        const dy = e.touches[0].clientY - dragStartY;
+        sheetState.portraitPanX = Math.round(initialPanX + dx);
+        sheetState.portraitPanY = Math.round(initialPanY + dy);
+        applyPortraitTransform(false);
+      }, { passive: false });
+
+      dropzone.addEventListener("touchend", () => {
+        if (!isDraggingPortrait) return;
+        isDraggingPortrait = false;
+        updateSheetState();
+      });
+
+      // Rueda del ratón para hacer zoom rápido sobre el marco
+      dropzone.addEventListener("wheel", e => {
+        if (!sheetState.portrait) return;
+        e.preventDefault();
+        const delta = e.deltaY < 0 ? 10 : -10;
+        stepPortraitZoom(delta);
+      }, { passive: false });
+    }
+
+    function setupPortraitDragAndDrop() {
+      const dropzone = document.getElementById("portrait-dropzone");
+      ["dragenter", "dragover", "dragleave", "drop"].forEach(evtName => {
+        dropzone.addEventListener(evtName, e => {
+          e.preventDefault();
+          e.stopPropagation();
+        });
+      });
+
+      dropzone.addEventListener("dragover", () => dropzone.classList.add("border-crimson", "scale-[1.01]"));
+      dropzone.addEventListener("dragleave", () => dropzone.classList.remove("border-crimson", "scale-[1.01]"));
+      dropzone.addEventListener("drop", e => {
+        dropzone.classList.remove("border-crimson", "scale-[1.01]");
+        const files = e.dataTransfer.files;
+        if (files && files[0]) {
+          processImageFile(files[0]);
+        }
+      });
+    }
+
+    function handlePortraitFile(event) {
+      const file = event.target.files[0];
+      if (file) processImageFile(file);
+    }
+
+    function processImageFile(file) {
+      if (!file.type.startsWith("image/")) {
+        showToast(I18N[currentLang].toasts.invalidImage, "error");
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = e => {
+        // Redimensionar suavemente para no saturar LocalStorage
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement("canvas");
+          const maxDim = 750;
+          let w = img.width;
+          let h = img.height;
+          if (w > maxDim || h > maxDim) {
+            if (w > h) { h = Math.round((h * maxDim) / w); w = maxDim; }
+            else { w = Math.round((w * maxDim) / h); h = maxDim; }
+          }
+          canvas.width = w;
+          canvas.height = h;
+          const ctx = canvas.getContext("2d");
+          ctx.drawImage(img, 0, 0, w, h);
+          const dataUrl = canvas.toDataURL("image/jpeg", 0.88);
+          sheetState.portrait = dataUrl;
+          resetPortraitFraming(false);
+          showPortraitImage(dataUrl);
+          updateSheetState();
+          showToast(I18N[currentLang].toasts.portraitLoaded, "gold");
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function handlePortraitURL(url) {
+      const trimmed = url.trim();
+      if (!trimmed) return;
+      sheetState.portrait = trimmed;
+      resetPortraitFraming(false);
+      showPortraitImage(trimmed);
+      updateSheetState();
+    }
+
+    function showPortraitImage(src) {
+      const dropzone = document.getElementById("portrait-dropzone");
+      const preview = document.getElementById("portrait-preview");
+      const placeholder = document.getElementById("portrait-placeholder");
+      const dragHint = document.getElementById("portrait-drag-hint");
+      const changeBtn = document.getElementById("portrait-change-btn");
+      const adjustControls = document.getElementById("portrait-adjust-controls");
+
+      preview.src = src;
+      preview.classList.remove("hidden");
+      placeholder.classList.add("hidden");
+      dragHint.classList.remove("hidden");
+      changeBtn.classList.remove("hidden");
+      changeBtn.classList.add("flex");
+      adjustControls.classList.remove("hidden");
+
+      dropzone.classList.remove("cursor-pointer");
+      dropzone.classList.add("cursor-grab");
+      applyPortraitTransform(false);
+    }
+
+    function clearPortrait(triggerSave = true) {
+      const dropzone = document.getElementById("portrait-dropzone");
+      const preview = document.getElementById("portrait-preview");
+      const placeholder = document.getElementById("portrait-placeholder");
+      const dragHint = document.getElementById("portrait-drag-hint");
+      const changeBtn = document.getElementById("portrait-change-btn");
+      const adjustControls = document.getElementById("portrait-adjust-controls");
+
+      preview.src = "";
+      preview.classList.add("hidden");
+      placeholder.classList.remove("hidden");
+      dragHint.classList.add("hidden");
+      changeBtn.classList.add("hidden");
+      changeBtn.classList.remove("flex");
+      adjustControls.classList.add("hidden");
+
+      dropzone.classList.add("cursor-pointer");
+      dropzone.classList.remove("cursor-grab", "cursor-grabbing");
+
+      document.getElementById("portrait-url-input").value = "";
+      document.getElementById("portrait-file-input").value = "";
+
+      sheetState.portrait = "";
+      sheetState.portraitPanX = 0;
+      sheetState.portraitPanY = 0;
+      sheetState.portraitZoom = 100;
+      sheetState.portraitRotation = 0;
+      if (triggerSave) updateSheetState();
+    }
+
+    function handlePortraitZoomSlider(val) {
+      sheetState.portraitZoom = Math.min(300, Math.max(50, parseInt(val, 10) || 100));
+      applyPortraitTransform(true);
+    }
+
+    function stepPortraitZoom(delta) {
+      const current = sheetState.portraitZoom || 100;
+      sheetState.portraitZoom = Math.min(300, Math.max(50, current + delta));
+      applyPortraitTransform(true);
+    }
+
+    function handlePortraitRotateSlider(val) {
+      sheetState.portraitRotation = Math.min(180, Math.max(-180, parseInt(val, 10) || 0));
+      applyPortraitTransform(true);
+    }
+
+    function stepPortraitRotation(delta) {
+      let next = (sheetState.portraitRotation || 0) + delta;
+      if (next > 180) next -= 360;
+      if (next < -180) next += 360;
+      sheetState.portraitRotation = next;
+      applyPortraitTransform(true);
+    }
+
+    function resetPortraitFraming(triggerSave = true) {
+      sheetState.portraitPanX = 0;
+      sheetState.portraitPanY = 0;
+      sheetState.portraitZoom = 100;
+      sheetState.portraitRotation = 0;
+      applyPortraitTransform(triggerSave);
+    }
+
+    function applyPortraitTransform(triggerSave = true) {
+      const preview = document.getElementById("portrait-preview");
+      const zoomSlider = document.getElementById("portrait-zoom-slider");
+      const rotateSlider = document.getElementById("portrait-rotate-slider");
+      const zoomLabel = document.getElementById("portrait-zoom-label");
+      const rotateLabel = document.getElementById("portrait-rotate-label");
+
+      const panX = sheetState.portraitPanX || 0;
+      const panY = sheetState.portraitPanY || 0;
+      const zoom = sheetState.portraitZoom || 100;
+      const rotation = sheetState.portraitRotation || 0;
+
+      if (preview) {
+        preview.style.transform = `translate(-50%, -50%) translate(${panX}px, ${panY}px) scale(${zoom / 100}) rotate(${rotation}deg)`;
+      }
+      if (zoomSlider) zoomSlider.value = zoom;
+      if (rotateSlider) rotateSlider.value = rotation;
+      if (zoomLabel) zoomLabel.textContent = `${zoom}%`;
+      if (rotateLabel) rotateLabel.textContent = `${rotation}°`;
+
+      if (triggerSave) updateSheetState();
+    }
+
+    function updatePortraitPosition(triggerSave = true) {
+      const posY = document.getElementById("portrait-pos-y").value;
+      document.getElementById("pos-y-label").textContent = `${posY}%`;
+      document.getElementById("portrait-preview").style.objectPosition = `50% ${posY}%`;
+      sheetState.portraitPosY = parseInt(posY, 10);
+      if (triggerSave) updateSheetState();
+    }
+
+    // =========================================================================
+    // CÁLCULO DE TEI (d20 -> 1..10) Y REGLA DE LÍMITE MÁXIMO (1x10, 2x9)
+    // =========================================================================
+    function d20ToTEI(d20) {
+      return Math.ceil(d20 / 2);
+    }
+
+    function rollSingleAttribute(attrId) {
+      const d20 = Math.floor(Math.random() * 20) + 1;
+      const teiVal = d20ToTEI(d20);
+      const attrLoc = (I18N[currentLang].attributes && I18N[currentLang].attributes[attrId]) || { name: attrId };
+      const rDict = I18N[currentLang].rolls;
+
+      sheetState.attributes[attrId] = { value: teiVal, lastD20: d20 };
+      document.getElementById(`attr-input-${attrId}`).value = teiVal;
+      document.getElementById(`attr-d20-badge-${attrId}`).innerHTML =
+        `d20: <strong class="text-crimson">${d20}</strong> &rarr; <strong>${teiVal}</strong>`;
+
+      updateDiceTowerDisplay(
+        `TEI: ${attrLoc.name}`,
+        teiVal,
+        `d20: ${d20} ÷ 2 = ${teiVal} pts`
+      );
+      addRollHistoryEntry(`${rDict.attrLabel} ${attrLoc.name}`, `${teiVal} pts`, `1d20 (${d20})`);
+
+      validateTEILimits();
+      refreshAllSkillsUI();
+      updateSheetState();
+    }
+
+    function rollAllAttributes() {
+      // Genera los 7 atributos respetando automáticamente la regla de límite máximo (máx 1 en 10 y máx 2 en 9)
+      let count10 = 0;
+      let count9 = 0;
+      const summaryParts = [];
+      const dictAttrs = I18N[currentLang].attributes;
+      const rDict = I18N[currentLang].rolls;
+
+      ATTRIBUTES_LIST.forEach(attr => {
+        let d20 = Math.floor(Math.random() * 20) + 1;
+        let teiVal = d20ToTEI(d20);
+
+        while ((teiVal === 10 && count10 >= 1) || (teiVal === 9 && count9 >= 2)) {
+          d20 = Math.floor(Math.random() * 20) + 1;
+          teiVal = d20ToTEI(d20);
+        }
+
+        if (teiVal === 10) count10++;
+        if (teiVal === 9) count9++;
+
+        const shortCode = (dictAttrs[attr.id] && dictAttrs[attr.id].short) || attr.short;
+        sheetState.attributes[attr.id] = { value: teiVal, lastD20: d20 };
+        document.getElementById(`attr-input-${attr.id}`).value = teiVal;
+        document.getElementById(`attr-d20-badge-${attr.id}`).innerHTML =
+          `d20: <strong class="text-crimson">${d20}</strong> &rarr; <strong>${teiVal}</strong>`;
+        summaryParts.push(`${shortCode}:${teiVal}`);
+      });
+
+      updateDiceTowerDisplay(rDict.allTeiTitle, "7d20", summaryParts.join(" • "));
+      addRollHistoryEntry(rDict.allTeiHistory, rDict.allTeiCount, summaryParts.join(", "));
+      validateTEILimits();
+      refreshAllSkillsUI();
+      updateSheetState();
+      showToast(I18N[currentLang].toasts.allTeiRolled, "gold");
+    }
+
+    function handleAttributeManualChange(attrId, rawValue) {
+      let val = parseInt(rawValue, 10);
+      if (isNaN(val)) val = 1;
+      if (val < 1) val = 1;
+      if (val > 10) val = 10;
+
+      sheetState.attributes[attrId] = { value: val, lastD20: null };
+      document.getElementById(`attr-input-${attrId}`).value = val;
+      document.getElementById(`attr-d20-badge-${attrId}`).textContent = t("manualVal");
+
+      validateTEILimits();
+      refreshAllSkillsUI();
+      updateSheetState();
+    }
+
+    function rollAllAttributes() {
+      // Genera los 7 atributos respetando automáticamente la regla de límite máximo (máx 1 en 10 y máx 2 en 9)
+      let count10 = 0;
+      let count9 = 0;
+      const summaryParts = [];
+
+      ATTRIBUTES_LIST.forEach(attr => {
+        let d20 = Math.floor(Math.random() * 20) + 1;
+        let teiVal = d20ToTEI(d20);
+
+        while ((teiVal === 10 && count10 >= 1) || (teiVal === 9 && count9 >= 2)) {
+          d20 = Math.floor(Math.random() * 20) + 1;
+          teiVal = d20ToTEI(d20);
+        }
+
+        if (teiVal === 10) count10++;
+        if (teiVal === 9) count9++;
+
+        sheetState.attributes[attr.id] = { value: teiVal, lastD20: d20 };
+        document.getElementById(`attr-input-${attr.id}`).value = teiVal;
+        document.getElementById(`attr-d20-badge-${attr.id}`).innerHTML =
+          `d20: <strong class="text-crimson">${d20}</strong> &rarr; <strong>${teiVal}</strong>`;
+        summaryParts.push(`${attr.short}:${teiVal}`);
+      });
+
+      updateDiceTowerDisplay("Generación Completa TEI", "7d20", summaryParts.join(" • "));
+      addRollHistoryEntry("Tirada Completa TEI", "7 Atributos", summaryParts.join(", "));
+      validateTEILimits();
+      refreshAllSkillsUI();
+      updateSheetState();
+      showToast("Los 7 atributos TEI han sido generados respetando los límites de 10 y 9.", "gold");
+    }
+
+    function handleAttributeManualChange(attrId, rawValue) {
+      let val = parseInt(rawValue, 10);
+      if (isNaN(val)) val = 1;
+      if (val < 1) val = 1;
+      if (val > 10) val = 10;
+
+      sheetState.attributes[attrId] = { value: val, lastD20: null };
+      document.getElementById(`attr-input-${attrId}`).value = val;
+      document.getElementById(`attr-d20-badge-${attrId}`).textContent = "Valor manual";
+
+      validateTEILimits();
+      refreshAllSkillsUI();
+      updateSheetState();
+    }
+
+    function validateTEILimits() {
+      let count10 = 0;
+      let count9 = 0;
+
+      ATTRIBUTES_LIST.forEach(attr => {
+        const val = Number((sheetState.attributes[attr.id] || {}).value || 0);
+        const card = document.getElementById(`attr-card-${attr.id}`);
+        if (val === 10) count10++;
+        if (val === 9) count9++;
+
+        if (card) {
+          card.classList.remove("border-red-600", "bg-red-50/90", "border-amber-500");
+          if (val === 10) card.classList.add("border-amber-500");
+        }
+      });
+
+      const count10Val = document.getElementById("count-10-val");
+      const count9Val = document.getElementById("count-9-val");
+      const banner = document.getElementById("tei-limit-banner");
+      const icon = document.getElementById("tei-limit-icon");
+      const badge10 = document.getElementById("count-10-badge");
+      const badge9 = document.getElementById("count-9-badge");
+
+      if (count10Val) count10Val.textContent = count10;
+      if (count9Val) count9Val.textContent = count9;
+
+      const valid10 = count10 <= 1;
+      const valid9 = count9 <= 2;
+      const isValid = valid10 && valid9;
+
+      if (badge10) {
+        badge10.className = valid10
+          ? "px-2.5 py-1 rounded-md bg-parchment-light border border-parchment-border"
+          : "px-2.5 py-1 rounded-md bg-red-900 text-white border border-red-500 animate-pulse";
+      }
+      if (badge9) {
+        badge9.className = valid9
+          ? "px-2.5 py-1 rounded-md bg-parchment-light border border-parchment-border"
+          : "px-2.5 py-1 rounded-md bg-red-900 text-white border border-red-500 animate-pulse";
+      }
+
+      if (banner && icon) {
+        if (isValid) {
+          banner.className = "rounded-lg border-2 p-2.5 mb-4 flex flex-wrap items-center justify-between gap-2 transition-colors bg-emerald-950/10 border-emerald-800/40 text-ink";
+          icon.setAttribute("data-lucide", "check-circle-2");
+          icon.className = "w-5 h-5 text-emerald-700 shrink-0";
+        } else {
+          banner.className = "rounded-lg border-2 p-2.5 mb-4 flex flex-wrap items-center justify-between gap-2 transition-colors bg-red-950/15 border-red-600 text-red-950";
+          icon.setAttribute("data-lucide", "alert-octagon");
+          icon.className = "w-5 h-5 text-red-600 shrink-0";
+        }
+        lucide.createIcons();
+      }
+
+      return isValid;
+    }
+
+    // =========================================================================
+    // GESTIÓN DE LAS 19 PERICIAS ([ ] -> [X] +3 -> [XX] +5) Y TIRADAS
+    // =========================================================================
+    function cycleSkillRank(skillId) {
+      const current = sheetState.skills[skillId] || 0;
+      const next = (current + 1) % 3;
+      sheetState.skills[skillId] = next;
+      refreshAllSkillsUI();
+      updateSheetState();
+    }
+
+    function refreshAllSkillsUI() {
+      SKILLS_COLUMNS.forEach(colGroups => {
+        colGroups.forEach(group => {
+          const attrVal = Number((sheetState.attributes[group.attrId] || {}).value || 5);
+          const baseBadge = document.getElementById(`skill-group-base-${group.attrId}`);
+          if (baseBadge) baseBadge.textContent = `+${attrVal}`;
+
+          group.skills.forEach(skill => {
+            const rank = sheetState.skills[skill.id] || 0;
+            const bonus = rank === 1 ? 3 : (rank === 2 ? 5 : 0);
+            const totalMod = attrVal + bonus;
+
+            const circle = document.getElementById(`skill-circle-${skill.id}`);
+            const tag = document.getElementById(`skill-rank-tag-${skill.id}`);
+            const totalEl = document.getElementById(`skill-total-mod-${skill.id}`);
+
+            if (circle) {
+              if (rank === 0) {
+                circle.textContent = "";
+                circle.className = "mt-0.5 w-7 h-7 rounded-full border-2 border-ink bg-white flex items-center justify-center font-sans font-extrabold text-xs shrink-0 transition shadow-sm cursor-pointer select-none";
+              } else if (rank === 1) {
+                circle.textContent = "X";
+                circle.className = "mt-0.5 w-7 h-7 rounded-full border-2 border-crimson bg-crimson text-white flex items-center justify-center font-sans font-extrabold text-xs shrink-0 transition shadow-sm cursor-pointer select-none";
+              } else {
+                circle.textContent = "XX";
+                circle.className = "mt-0.5 w-7 h-7 rounded-full border-2 border-gold-dark bg-leather-dark text-gold-light flex items-center justify-center font-sans font-extrabold text-[11px] shrink-0 transition shadow-sm cursor-pointer select-none";
+              }
+            }
+
+            if (tag) {
+              if (rank === 0) {
+                tag.textContent = "[ ] +0";
+                tag.className = "font-sans text-[10px] px-1.5 py-0.2 rounded bg-stone-200 text-stone-700 font-semibold";
+              } else if (rank === 1) {
+                tag.textContent = "[X] +3";
+                tag.className = "font-sans text-[10px] px-1.5 py-0.2 rounded bg-red-100 text-crimson font-bold border border-crimson/30";
+              } else {
+                tag.textContent = "[XX] +5";
+                tag.className = "font-sans text-[10px] px-1.5 py-0.2 rounded bg-amber-100 text-amber-900 font-bold border border-gold-dark/40";
+              }
+            }
+
+            if (totalEl) {
+              totalEl.textContent = `+${totalMod}`;
+            }
+          });
+        });
+      });
+    }
+
+    function rollSkillCheck(attrId, skillId, skillName) {
+      const d20 = Math.floor(Math.random() * 20) + 1;
+      const attrVal = Number((sheetState.attributes[attrId] || {}).value || 5);
+      const rank = sheetState.skills[skillId] || 0;
+      const bonus = rank === 1 ? 3 : (rank === 2 ? 5 : 0);
+      const total = d20 + attrVal + bonus;
+      const rDict = I18N[currentLang].rolls;
+
+      const rankLabel = rank === 2 ? " [XX]" : (rank === 1 ? " [X]" : "");
+      const formula = bonus > 0
+        ? `1d20 (${d20}) + ${rDict.attrShort} (${attrVal}) + ${rDict.skillShort} (${bonus})`
+        : `1d20 (${d20}) + ${rDict.attrShort} (${attrVal})`;
+
+      updateDiceTowerDisplay(`${skillName}${rankLabel}`, total, formula);
+      addRollHistoryEntry(`${skillName}${rankLabel}`, total, formula, d20);
+    }
+
+    function rollFreeD20() {
+      const d20 = Math.floor(Math.random() * 20) + 1;
+      const rDict = I18N[currentLang].rolls;
+      updateDiceTowerDisplay(rDict.freeRollTitle, d20, d20 === 20 ? rDict.critSuccess : (d20 === 1 ? rDict.critFail : rDict.pureDie));
+      addRollHistoryEntry(rDict.freeRollHistory, d20, rDict.pureDieShort, d20);
+    }
+
+    function rollLuckCheck() {
+      const d20 = Math.floor(Math.random() * 20) + 1;
+      const luckVal = Number((sheetState.attributes.suerte || {}).value || 5);
+      const total = d20 + luckVal;
+      const rDict = I18N[currentLang].rolls;
+      const formula = `1d20 (${d20}) + ${rDict.luckAttr} (${luckVal})`;
+      updateDiceTowerDisplay(rDict.luckTitle, total, formula);
+      addRollHistoryEntry(rDict.luckTitle, total, formula, d20);
+    }
+
+    function rollFreeD20() {
+      const d20 = Math.floor(Math.random() * 20) + 1;
+      updateDiceTowerDisplay("Tirada Libre (1d20)", d20, d20 === 20 ? "¡Éxito Crítico Natural!" : (d20 === 1 ? "¡Pifia Natural!" : "Dado principal d20"));
+      addRollHistoryEntry("Tirada Libre 1d20", d20, "Dado puro", d20);
+    }
+
+    function rollLuckCheck() {
+      const d20 = Math.floor(Math.random() * 20) + 1;
+      const luckVal = Number((sheetState.attributes.suerte || {}).value || 5);
+      const total = d20 + luckVal;
+      const formula = `1d20 (${d20}) + Suerte (${luckVal})`;
+      updateDiceTowerDisplay("Prueba de Suerte", total, formula);
+      addRollHistoryEntry("Prueba de Suerte", total, formula, d20);
+    }
+
+    function updateDiceTowerDisplay(title, result, breakdown) {
+      const titleEl = document.getElementById("dice-roll-title");
+      const numEl = document.getElementById("dice-roll-number");
+      const breakEl = document.getElementById("dice-roll-breakdown");
+
+      titleEl.textContent = title;
+      numEl.textContent = result;
+      breakEl.textContent = breakdown;
+
+      numEl.classList.remove("animate-dice");
+      void numEl.offsetWidth;
+      numEl.classList.add("animate-dice");
+    }
+
+    function addRollHistoryEntry(label, total, detail, rawD20 = null) {
+      rollHistory.unshift({
+        label,
+        total,
+        detail,
+        rawD20,
+        time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" })
+      });
+      if (rollHistory.length > 25) rollHistory.pop();
+      renderRollHistory();
+    }
+
+    function renderRollHistory() {
+      const listEl = document.getElementById("roll-history-list");
+      if (!rollHistory.length) {
+        listEl.innerHTML = `<p class="text-parchment-dark/70 italic text-center py-4">${t("noRollsYet")}</p>`;
+        return;
+      }
+      listEl.innerHTML = rollHistory.map(item => {
+        const badgeColor = item.rawD20 === 20
+          ? "text-emerald-300 border-emerald-500/60 bg-emerald-950/60"
+          : (item.rawD20 === 1 ? "text-red-300 border-red-500/60 bg-red-950/60" : "text-gold-light border-gold/40 bg-leather");
+        return `
+          <div class="rounded-lg bg-leather/90 border border-gold/25 p-2 flex items-center justify-between gap-2">
+            <div class="min-w-0">
+              <div class="font-semibold text-parchment-light truncate">${item.label}</div>
+              <div class="text-[11px] text-parchment-dark truncate">${item.detail} • ${item.time}</div>
+            </div>
+            <span class="px-2 py-0.5 rounded border font-display font-bold text-sm shrink-0 ${badgeColor}">
+              ${item.total}
+            </span>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function clearRollHistory() {
+      rollHistory = [];
+      renderRollHistory();
+    }
+
+    // =========================================================================
+    // RESUMEN DE ESTADO DE LA FICHA EN BARRA LATERAL
+    // =========================================================================
+    function updateValidationSummarySidebar() {
+      const container = document.getElementById("validation-summary-list");
+      const teiValid = validateTEILimits();
+      const dwarfHeightValid = validateHeightAndRace();
+      const hasName = (sheetState.name || "").trim().length > 0;
+      const raceLocName = (I18N[currentLang].races && I18N[currentLang].races[sheetState.race])
+        ? I18N[currentLang].races[sheetState.race].opt.split(" (")[0]
+        : sheetState.race;
+
+      // Contar pericias marcadas
+      let markedCount = 0;
+      let masteryCount = 0;
+      Object.values(sheetState.skills || {}).forEach(v => {
+        if (v === 1) markedCount++;
+        if (v === 2) masteryCount++;
+      });
+
+      container.innerHTML = `
+        <div class="flex items-center justify-between">
+          <span class="text-parchment-dark">${t("statusIdentity")}</span>
+          <span class="${hasName ? 'text-emerald-400' : 'text-amber-300'} font-semibold">
+            ${hasName ? sheetState.name : t("statusNoName")}
+          </span>
+        </div>
+        <div class="flex items-center justify-between">
+          <span class="text-parchment-dark">${t("statusHeightRule")} (${raceLocName}):</span>
+          <span class="${dwarfHeightValid ? 'text-emerald-400' : 'text-red-400 font-bold'}">
+            ${dwarfHeightValid ? t("statusValid") : t("statusExceedsHeight")}
+          </span>
+        </div>
+        <div class="flex items-center justify-between">
+          <span class="text-parchment-dark">${t("statusTeiLimits")}</span>
+          <span class="${teiValid ? 'text-emerald-400' : 'text-red-400 font-bold'}">
+            ${teiValid ? t("statusMeetsRule") : t("statusExcessDetected")}
+          </span>
+        </div>
+        <div class="flex items-center justify-between">
+          <span class="text-parchment-dark">${t("statusSkills")}</span>
+          <span class="text-gold-light font-semibold">
+            ${markedCount} [X] • ${masteryCount} [XX]
+          </span>
+        </div>
+      `;
+    }
+
+    // =========================================================================
+    // GUARDAR, EXPORTAR JSON, IMPORTAR JSON, IMPRIMIR Y REINICIAR
+    // =========================================================================
+    function saveToLocalStorage(notify = false) {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(sheetState));
+        if (notify) showToast(I18N[currentLang].toasts.savedLocal, "gold");
+      } catch (e) {
+        if (notify) showToast(I18N[currentLang].toasts.saveError, "error");
+      }
+    }
+
+    function exportJSON() {
+      const isTEIValid = validateTEILimits();
+      const isHeightValid = validateHeightAndRace();
+      if (!isTEIValid || !isHeightValid) {
+        showToast(I18N[currentLang].toasts.exportWarn, "error");
+      }
+
+      const fileNameBase = (sheetState.name || "personaje-rpg-medieval")
+        .toLowerCase()
+        .replace(/[^a-z0-9áéíóúñ]+/gi, "-")
+        .replace(/^-|-$/g, "");
+
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(sheetState, null, 2));
+      const dlAnchor = document.createElement("a");
+      dlAnchor.setAttribute("href", dataStr);
+      dlAnchor.setAttribute("download", `${fileNameBase || "ficha-rpg"}.json`);
+      document.body.appendChild(dlAnchor);
+      dlAnchor.click();
+      dlAnchor.remove();
+      showToast(I18N[currentLang].toasts.exportOk, "gold");
+    }
+
+    function importJSON(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = e => {
+        try {
+          const imported = JSON.parse(e.target.result);
+          sheetState = { ...getDefaultState(), ...imported };
+          applyStateToDOM();
+          saveToLocalStorage(false);
+          showToast(I18N[currentLang].toasts.importOk, "gold");
+        } catch (err) {
+          showToast(I18N[currentLang].toasts.importErr, "error");
+        }
+      };
+      reader.readAsText(file);
+      event.target.value = "";
+    }
+
+    function printSheet() {
+      if (!validateTEILimits() || !validateHeightAndRace()) {
+        showToast(I18N[currentLang].toasts.printWarn, "error");
+      }
+      setTimeout(() => window.print(), 180);
+    }
+
+    function openResetModal() {
+      document.getElementById("reset-modal").classList.remove("hidden");
+    }
+
+    function closeResetModal() {
+      document.getElementById("reset-modal").classList.add("hidden");
+    }
+
+    function confirmResetSheet() {
+      sheetState = getDefaultState();
+      localStorage.removeItem(STORAGE_KEY);
+      applyStateToDOM();
+      closeResetModal();
+      showToast(I18N[currentLang].toasts.resetOk, "gold");
+    }
+
+    // =========================================================================
+    // GUARDAR, EXPORTAR JSON, IMPORTAR JSON, IMPRIMIR Y REINICIAR
+    // =========================================================================
+    function saveToLocalStorage(notify = false) {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(sheetState));
+        if (notify) showToast("Ficha guardada en el navegador.", "gold");
+      } catch (e) {
+        if (notify) showToast("No se pudo guardar localmente (posible imagen muy pesada).", "error");
+      }
+    }
+
+    function exportJSON() {
+      const isTEIValid = validateTEILimits();
+      const isHeightValid = validateHeightAndRace();
+      if (!isTEIValid || !isHeightValid) {
+        showToast("Aviso: Se exportará el JSON, pero la ficha tiene advertencias de reglas activas.", "error");
+      }
+
+      const fileNameBase = (sheetState.name || "personaje-rpg-medieval")
+        .toLowerCase()
+        .replace(/[^a-z0-9áéíóúñ]+/gi, "-")
+        .replace(/^-|-$/g, "");
+
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(sheetState, null, 2));
+      const dlAnchor = document.createElement("a");
+      dlAnchor.setAttribute("href", dataStr);
+      dlAnchor.setAttribute("download", `${fileNameBase || "ficha-rpg"}.json`);
+      document.body.appendChild(dlAnchor);
+      dlAnchor.click();
+      dlAnchor.remove();
+      showToast("Archivo JSON descargado.", "gold");
+    }
+
+    function importJSON(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = e => {
+        try {
+          const imported = JSON.parse(e.target.result);
+          sheetState = { ...getDefaultState(), ...imported };
+          applyStateToDOM();
+          saveToLocalStorage(false);
+          showToast("Ficha importada desde JSON con éxito.", "gold");
+        } catch (err) {
+          showToast("El archivo seleccionado no es un JSON válido.", "error");
+        }
+      };
+      reader.readAsText(file);
+      event.target.value = "";
+    }
+
+    function printSheet() {
+      if (!validateTEILimits() || !validateHeightAndRace()) {
+        showToast("Atención: Revisa las alertas en rojo antes de imprimir tu ficha oficial.", "error");
+      }
+      setTimeout(() => window.print(), 180);
+    }
+
+    function openResetModal() {
+      document.getElementById("reset-modal").classList.remove("hidden");
+    }
+
+    function closeResetModal() {
+      document.getElementById("reset-modal").classList.add("hidden");
+    }
+
+    function confirmResetSheet() {
+      sheetState = getDefaultState();
+      localStorage.removeItem(STORAGE_KEY);
+      applyStateToDOM();
+      closeResetModal();
+      showToast("La ficha ha sido reiniciada en blanco.", "gold");
+    }
+
+    // Sistema de mensajes visuales (sin alert() nativo)
+    function showToast(message, type = "gold") {
+      const container = document.getElementById("toast-container");
+      const toast = document.createElement("div");
+      const isError = type === "error";
+
+      toast.className = `pointer-events-auto rounded-xl px-4 py-3 shadow-2xl border-2 font-sans text-xs sm:text-sm flex items-center gap-2.5 transition-all duration-300 ${
+        isError
+          ? "bg-red-950 border-red-500 text-red-100"
+          : "bg-leather-dark border-gold text-parchment-light"
+      }`;
+
+      toast.innerHTML = `
+        <i data-lucide="${isError ? 'alert-triangle' : 'sparkles'}" class="w-4 h-4 shrink-0 ${isError ? 'text-red-400' : 'text-gold-light'}"></i>
+        <span>${message}</span>
+      `;
+
+      container.appendChild(toast);
+      lucide.createIcons();
+
+      setTimeout(() => {
+        toast.style.opacity = "0";
+        toast.style.transform = "translateY(8px)";
+        setTimeout(() => toast.remove(), 300);
+      }, 3600);
+    }
+  </script>
+</body>
+</html>
